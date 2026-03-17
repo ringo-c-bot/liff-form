@@ -46,19 +46,18 @@
       color: #ff6b9d;
       margin-left: 4px;
     }
-   
-   input, textarea, select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid rgba(200, 168, 255, 0.4);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  color: white;
-  font-size: 15px;
-  -webkit-appearance: none;
-  appearance: none;
-  min-height: 48px;
-}
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid rgba(200, 168, 255, 0.4);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      font-size: 15px;
+      -webkit-appearance: none;
+      appearance: none;
+      min-height: 48px;
+    }
     input::placeholder, textarea::placeholder {
       color: rgba(255, 255, 255, 0.35);
     }
@@ -119,19 +118,16 @@
       <p>星を読む前に少し情報を教えてな✨<br>丁寧に読み解かせてもらうよ🌸</p>
     </div>
 
-
     <div id="form-area">
       <div class="form-group">
         <label>お名前<span class="required">*</span></label>
         <input type="text" id="userName" placeholder="ニックネームでもOKやよ">
       </div>
 
-
       <div class="form-group">
         <label>生年月日<span class="required">*</span></label>
         <input type="date" id="birthday" style="width:100%">
       </div>
-
 
       <div class="form-group">
         <label>出生時刻<span class="required">*</span></label>
@@ -139,13 +135,11 @@
         <p class="note">わからない場合は12:00と入力してな🌸</p>
       </div>
 
-
       <div class="form-group">
         <label>出生地<span class="required">*</span></label>
         <input type="text" id="birthPlace" placeholder="例）京都府京都市">
         <p class="note">都道府県と市区町村まで教えてもらえると嬉しいな🌿</p>
       </div>
-
 
       <div class="form-group">
         <label>相談内容<span class="required">*</span></label>
@@ -153,20 +147,17 @@
         <p class="note">※相談内容は1つに絞ってな🌸<br>複数ある場合は一番気になることを書いてな✨</p>
       </div>
 
-
       <div class="warning">
         ※人の生死や病気の診断、犯罪や法律に関わる内容など、人生に重要な影響を及ぼすものについては対応が難しいんよ。ごめんな🙏
       </div>
 
-
-<p id="error-msg" style="display:none; color:#ff6b9d; font-size:13px; margin-bottom:12px;">
-  全部の項目を入力してな🌸
-</p>
+      <p id="error-msg" style="display:none; color:#ff6b9d; font-size:13px; margin-bottom:12px;">
+        全部の項目を入力してな🌸
+      </p>
       <button class="btn" id="submitBtn" onclick="submitForm()">
         🌟 鑑定をお願いする
       </button>
     </div>
-
 
     <div class="success" id="success-area">
       <h2>✨ 受け取ったよ！</h2>
@@ -174,76 +165,64 @@
     </div>
   </div>
 
-
   <script>
     let liffUserId = '';
 
-async function initLiff() {
-  document.querySelector('.header p').textContent = '初期化中...';
-  try {
-    await liff.init({ liffId: '2009474205-F7E8jktC' });
-    document.querySelector('.header p').textContent = 'init完了';
-    if (!liff.isLoggedIn()) {
-      document.querySelector('.header p').textContent = '未ログイン→ログインへ';
-      liff.login();
-      return;
+    async function initLiff() {
+      try {
+        await liff.init({ liffId: '2009474205-F7E8jktC' });
+        if (!liff.isLoggedIn()) {
+          liff.login();
+          return;
+        }
+        const profile = await liff.getProfile();
+        liffUserId = profile.userId;
+      } catch(e) {
+        console.error('LIFF初期化エラー：', e);
+      }
     }
-    document.querySelector('.header p').textContent = 'プロフィール取得中...';
-    const profile = await liff.getProfile();
-    liffUserId = profile.userId;
-    document.querySelector('.header p').textContent = 'userId：' + liffUserId;
-  } catch(e) {
-    document.querySelector('.header p').textContent = 'エラー：' + e.message;
-  }
-}
+
     async function submitForm() {
-  const userName   = document.getElementById('userName').value.trim();
-  const birthday   = document.getElementById('birthday').value;
-  const birthTime  = document.getElementById('birthTime').value;
-  const birthPlace = document.getElementById('birthPlace').value.trim();
-  const soudan     = document.getElementById('soudan').value.trim();
+      const userName   = document.getElementById('userName').value.trim();
+      const birthday   = document.getElementById('birthday').value;
+      const birthTime  = document.getElementById('birthTime').value;
+      const birthPlace = document.getElementById('birthPlace').value.trim();
+      const soudan     = document.getElementById('soudan').value.trim();
 
+      if (!userName || !birthday || !birthTime || !birthPlace || !soudan) {
+        document.getElementById('error-msg').style.display = 'block';
+        return;
+      }
 
-  if (!userName || !birthday || !birthTime || !birthPlace || !soudan) {
-    document.getElementById('error-msg').style.display = 'block';
-    return;
-  }
+      document.getElementById('error-msg').style.display = 'none';
 
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = '送信中...';
 
-  document.getElementById('error-msg').style.display = 'none';
+      try {
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
+        await fetch(GAS_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'muryou',
+            userId: liffUserId,
+            userName, birthday, birthTime, birthPlace, soudan
+          })
+        });
 
+        document.getElementById('form-area').style.display = 'none';
+        document.getElementById('success-area').style.display = 'block';
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = '送信中...';
-
-
-  try {
-    const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
-    await fetch(GAS_URL, {
-  method: 'POST',
-  mode: 'no-cors',
-  headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        type: 'muryou',
-        userId: liffUserId,
-        userName, birthday, birthTime, birthPlace, soudan
-      })
-    });
-
-
-    document.getElementById('form-area').style.display = 'none';
-    document.getElementById('success-area').style.display = 'block';
-
-
-  } catch(e) {
-    document.getElementById('error-msg').textContent = 'エラー詳細：' + e.message + ' / ' + e.name;
-    document.getElementById('error-msg').style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = '🌟 鑑定をお願いする';
-  }
-}
-
+      } catch(e) {
+        document.getElementById('error-msg').textContent = '送信エラーが発生したんよ😔もう一度試してな';
+        document.getElementById('error-msg').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = '🌟 鑑定をお願いする';
+      }
+    }
 
     initLiff();
   </script>
