@@ -14,101 +14,42 @@
       padding: 20px;
       color: white;
     }
-    .container {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    .header h1 {
-      font-size: 22px;
-      color: #FFD700;
-      margin-bottom: 8px;
-    }
-    .header p {
-      font-size: 13px;
-      color: #c8a8ff;
-      line-height: 1.6;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      font-size: 14px;
-      color: #FFD700;
-      margin-bottom: 6px;
-    }
-    .required {
-      color: #ff6b9d;
-      margin-left: 4px;
-    }
+    .container { max-width: 480px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; margin-bottom: 30px; }
+    .header h1 { font-size: 22px; color: #FFD700; margin-bottom: 8px; }
+    .header p { font-size: 13px; color: #c8a8ff; line-height: 1.6; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; font-size: 14px; color: #FFD700; margin-bottom: 6px; }
+    .required { color: #ff6b9d; margin-left: 4px; }
     input, textarea, select {
-      width: 100%;
-      padding: 12px;
+      width: 100%; padding: 12px;
       border: 1px solid rgba(200, 168, 255, 0.4);
       border-radius: 8px;
       background: rgba(255, 255, 255, 0.08);
-      color: white;
-      font-size: 15px;
-      -webkit-appearance: none;
-      appearance: none;
-      min-height: 48px;
+      color: white; font-size: 15px;
+      -webkit-appearance: none; appearance: none; min-height: 48px;
     }
-    input::placeholder, textarea::placeholder {
-      color: rgba(255, 255, 255, 0.35);
-    }
+    input::placeholder, textarea::placeholder { color: rgba(255, 255, 255, 0.35); }
     textarea { height: 120px; resize: none; }
-    .note {
-      font-size: 12px;
-      color: #c8a8ff;
-      margin-top: 5px;
-      line-height: 1.5;
-    }
+    .note { font-size: 12px; color: #c8a8ff; margin-top: 5px; line-height: 1.5; }
     .warning {
       background: rgba(255, 107, 157, 0.1);
       border: 1px solid rgba(255, 107, 157, 0.3);
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 12px;
-      color: #ffb3d1;
-      margin-bottom: 24px;
-      line-height: 1.6;
+      border-radius: 8px; padding: 12px;
+      font-size: 12px; color: #ffb3d1;
+      margin-bottom: 24px; line-height: 1.6;
     }
     .btn {
-      width: 100%;
-      padding: 16px;
+      width: 100%; padding: 16px;
       background: linear-gradient(135deg, #7b2ff7, #f72f7b);
-      border: none;
-      border-radius: 12px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      letter-spacing: 1px;
+      border: none; border-radius: 12px;
+      color: white; font-size: 16px; font-weight: bold;
+      cursor: pointer; letter-spacing: 1px;
     }
-    .btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .success {
-      text-align: center;
-      padding: 40px 20px;
-      display: none;
-    }
-    .success h2 {
-      color: #FFD700;
-      font-size: 20px;
-      margin-bottom: 12px;
-    }
-    .success p {
-      color: #c8a8ff;
-      font-size: 14px;
-      line-height: 1.8;
-    }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .success { text-align: center; padding: 40px 20px; display: none; }
+    .success h2 { color: #FFD700; font-size: 20px; margin-bottom: 12px; }
+    .success p { color: #c8a8ff; font-size: 14px; line-height: 1.8; }
   </style>
 </head>
 <body>
@@ -224,11 +165,14 @@
       }
     }
 
-// 生年月日の設定
-const today = new Date().toISOString().split('T')[0];
-document.getElementById('birthday').max = today;
-document.getElementById('birthday').defaultValue = '2000-01-01';
-    
+    // 生年月日の設定
+    const today = new Date().toISOString().split('T')[0];
+    const birthdayInput = document.getElementById('birthday');
+    birthdayInput.max = today;
+    birthdayInput.addEventListener('focus', function() {
+      if (!this.value) this.value = '2000-01-01';
+    });
+
     initLiff();
   </script>
 </body>
