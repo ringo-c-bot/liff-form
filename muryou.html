@@ -55,11 +55,17 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>🔮 アヤの無料星読み鑑定　🔮</h1>
+      <h1>🔮 アヤの無料星読み鑑定</h1>
       <p>星を読む前に少し情報を教えてな✨<br>丁寧に読み解かせてもらうよ🌸</p>
     </div>
 
-    <div id="form-area">
+    <!-- ローディング画面 -->
+    <div id="loading-area" style="text-align:center; padding:40px 20px;">
+      <p style="color:#c8a8ff; font-size:14px;">読み込み中...🔮</p>
+    </div>
+
+    <!-- 入力フォーム（最初は非表示） -->
+    <div id="form-area" style="display:none;">
       <div class="form-group">
         <label>お名前<span class="required">*</span></label>
         <input type="text" id="userName" placeholder="ニックネームでもOKやよ">
@@ -100,13 +106,15 @@
       </button>
     </div>
 
+    <!-- 送信完了画面 -->
     <div class="success" id="success-area">
       <h2>✨ 受け取ったよ！</h2>
       <p>アヤが今星を読んでるから<br>少し待っててな🔮<br><br>LINEに鑑定結果をお届けするから<br>楽しみに待っててな🌸</p>
     </div>
 
+    <!-- 鑑定済み画面 -->
     <div id="kantei-zumi-area" style="display:none; text-align:center; padding:40px 20px;">
-      <h2 style="color:#FFD700; font-size:20px; margin-bottom:12px;">✨ご確認✨</h2>
+      <h2 style="color:#FFD700; font-size:20px; margin-bottom:12px;">✨ ご確認</h2>
       <p style="color:#c8a8ff; font-size:14px; line-height:1.8;">
         すでに無料鑑定を受けてくれてるんよ🌸<br><br>
         もっと深く視たい時は<br>
@@ -133,13 +141,20 @@
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
         const res = await fetch(GAS_URL + '?check=' + liffUserId);
         const json = await res.json();
+
+        // ローディング非表示
+        document.getElementById('loading-area').style.display = 'none';
+
         if (json.kanteiZumi) {
-          document.getElementById('form-area').style.display = 'none';
           document.getElementById('kantei-zumi-area').style.display = 'block';
+        } else {
+          document.getElementById('form-area').style.display = 'block';
         }
 
       } catch(e) {
         console.error('LIFF初期化エラー：', e);
+        document.getElementById('loading-area').style.display = 'none';
+        document.getElementById('form-area').style.display = 'block';
       }
     }
 
