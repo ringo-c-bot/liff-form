@@ -104,6 +104,16 @@
       <h2>✨ 受け取ったよ！</h2>
       <p>アヤが今星を読んでるから<br>少し待っててな🔮<br><br>LINEに鑑定結果をお届けするから<br>楽しみに待っててな🌸</p>
     </div>
+
+    <div id="kantei-zumi-area" style="display:none; text-align:center; padding:40px 20px;">
+      <h2 style="color:#FFD700; font-size:20px; margin-bottom:12px;">✨ ご確認</h2>
+      <p style="color:#c8a8ff; font-size:14px; line-height:1.8;">
+        すでに無料鑑定を受けてくれてるんよ🌸<br><br>
+        もっと深く視たい時は<br>
+        本鑑定で待ってるな✨
+      </p>
+    </div>
+
   </div>
 
   <script>
@@ -118,6 +128,16 @@
         }
         const profile = await liff.getProfile();
         liffUserId = profile.userId;
+
+        // 鑑定済みチェック
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
+        const res = await fetch(GAS_URL + '?check=' + liffUserId);
+        const json = await res.json();
+        if (json.kanteiZumi) {
+          document.getElementById('form-area').style.display = 'none';
+          document.getElementById('kantei-zumi-area').style.display = 'block';
+        }
+
       } catch(e) {
         console.error('LIFF初期化エラー：', e);
       }
