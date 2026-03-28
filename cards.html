@@ -45,12 +45,6 @@
       border: none; color: white; font-weight: bold; font-size: 15px;
       padding: 14px; width: 100%; border-radius: 10px; cursor: pointer; margin-top: 8px;
     }
-    .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-    .btn {
-      padding: 8px 12px; border-radius: 10px; border: 1px solid rgba(200,168,255,0.4);
-      background: rgba(255,255,255,0.08); color: white; font-size: 12px; cursor: pointer; flex: 1;
-    }
-    .btn:hover { background: rgba(255,255,255,0.15); }
     .result-box {
       background: rgba(255,255,255,0.05); border: 1px solid rgba(200,168,255,0.3);
       border-radius: 10px; padding: 16px; margin-top: 16px; font-size: 13px;
@@ -65,6 +59,7 @@
     .hidden { display: none; }
     .nayami-section { margin-bottom: 16px; }
     .nayami-title { color: #FFD700; font-size: 13px; font-weight: bold; margin-bottom: 10px; }
+    .waiting { text-align: center; color: #c8a8ff; font-size: 13px; padding: 20px; }
   </style>
 </head>
 <body>
@@ -80,170 +75,181 @@
   </div>
 
   <div id="plan1-content">
-    <div class="section">
-      <div class="section-title">🌟 タロット（3枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p1-t1">-</div><div class="card-num" id="p1-t1n"></div><div class="card-pos" id="p1-t1p">-</div></div>
-        <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p1-t2">-</div><div class="card-num" id="p1-t2n"></div><div class="card-pos" id="p1-t2p">-</div></div>
-        <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p1-t3">-</div><div class="card-num" id="p1-t3n"></div><div class="card-pos" id="p1-t3p">-</div></div>
+    <div class="waiting" id="p1-waiting">「カードを引く」ボタンを押してね🔮</div>
+    <div id="p1-cards" class="hidden">
+      <div class="section">
+        <div class="section-title">🌟 タロット（3枚）</div>
+        <div class="cards-row">
+          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p1-t1">-</div><div class="card-num" id="p1-t1n"></div><div class="card-pos" id="p1-t1p"></div></div>
+          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p1-t2">-</div><div class="card-num" id="p1-t2n"></div><div class="card-pos" id="p1-t2p"></div></div>
+          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p1-t3">-</div><div class="card-num" id="p1-t3n"></div><div class="card-pos" id="p1-t3p"></div></div>
+        </div>
       </div>
-    </div>
-    <hr class="divider">
-    <div class="section">
-      <div class="section-title">🌸 ルノマン（1枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">一言アドバイス</div><div class="card-name" id="p1-l1">-</div><div class="card-num" id="p1-l1n"></div></div>
+      <hr class="divider">
+      <div class="section">
+        <div class="section-title">🌸 ルノマン（1枚）</div>
+        <div class="cards-row">
+          <div class="card-slot"><div class="card-label">一言アドバイス</div><div class="card-name" id="p1-l1">-</div><div class="card-num" id="p1-l1n"></div></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div id="plan2-content" class="hidden">
-    <div class="section">
-      <div class="section-title">🌟 タロット（3枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p2-t1">-</div><div class="card-num" id="p2-t1n"></div><div class="card-pos" id="p2-t1p">-</div></div>
-        <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p2-t2">-</div><div class="card-num" id="p2-t2n"></div><div class="card-pos" id="p2-t2p">-</div></div>
-        <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p2-t3">-</div><div class="card-num" id="p2-t3n"></div><div class="card-pos" id="p2-t3p">-</div></div>
+    <div class="waiting" id="p2-waiting">「カードを引く」ボタンを押してね🔮</div>
+    <div id="p2-cards" class="hidden">
+      <div class="section">
+        <div class="section-title">🌟 タロット（3枚）</div>
+        <div class="cards-row">
+          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p2-t1">-</div><div class="card-num" id="p2-t1n"></div><div class="card-pos" id="p2-t1p"></div></div>
+          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p2-t2">-</div><div class="card-num" id="p2-t2n"></div><div class="card-pos" id="p2-t2p"></div></div>
+          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p2-t3">-</div><div class="card-num" id="p2-t3n"></div><div class="card-pos" id="p2-t3p"></div></div>
+        </div>
       </div>
-    </div>
-    <hr class="divider">
-    <div class="section">
-      <div class="section-title">🌸 ルノマン（3枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p2-l1">-</div><div class="card-num" id="p2-l1n"></div></div>
-        <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p2-l2">-</div><div class="card-num" id="p2-l2n"></div></div>
-        <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p2-l3">-</div><div class="card-num" id="p2-l3n"></div></div>
+      <hr class="divider">
+      <div class="section">
+        <div class="section-title">🌸 ルノマン（3枚）</div>
+        <div class="cards-row">
+          <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p2-l1">-</div><div class="card-num" id="p2-l1n"></div></div>
+          <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p2-l2">-</div><div class="card-num" id="p2-l2n"></div></div>
+          <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p2-l3">-</div><div class="card-num" id="p2-l3n"></div></div>
+        </div>
       </div>
-    </div>
-    <hr class="divider">
-    <div class="section">
-      <div class="section-title">💫 オラクル（1枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">メッセージ</div><div class="card-name" id="p2-o1">-</div><div class="card-num" id="p2-o1n"></div></div>
+      <hr class="divider">
+      <div class="section">
+        <div class="section-title">💫 オラクル（1枚）</div>
+        <div class="cards-row">
+          <div class="card-slot"><div class="card-label">メッセージ</div><div class="card-name" id="p2-o1">-</div><div class="card-num" id="p2-o1n"></div></div>
+        </div>
       </div>
     </div>
   </div>
 
   <div id="plan3-content" class="hidden">
-    <div class="nayami-section">
-      <div class="nayami-title">【お悩み①】</div>
-      <div class="section">
-        <div class="section-title">🌟 タロット（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p3-t1a">-</div><div class="card-num" id="p3-t1an"></div><div class="card-pos" id="p3-t1ap">-</div></div>
-          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p3-t2a">-</div><div class="card-num" id="p3-t2an"></div><div class="card-pos" id="p3-t2ap">-</div></div>
-          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p3-t3a">-</div><div class="card-num" id="p3-t3an"></div><div class="card-pos" id="p3-t3ap">-</div></div>
+    <div class="waiting" id="p3-waiting">「カードを引く」ボタンを押してね🔮</div>
+    <div id="p3-cards" class="hidden">
+      <div class="nayami-section">
+        <div class="nayami-title">【お悩み①】</div>
+        <div class="section">
+          <div class="section-title">🌟 タロット（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p3-t1a">-</div><div class="card-num" id="p3-t1an"></div><div class="card-pos" id="p3-t1ap"></div></div>
+            <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p3-t2a">-</div><div class="card-num" id="p3-t2an"></div><div class="card-pos" id="p3-t2ap"></div></div>
+            <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p3-t3a">-</div><div class="card-num" id="p3-t3an"></div><div class="card-pos" id="p3-t3ap"></div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">🌸 ルノマン（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p3-l1a">-</div><div class="card-num" id="p3-l1an"></div></div>
+            <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p3-l2a">-</div><div class="card-num" id="p3-l2an"></div></div>
+            <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p3-l3a">-</div><div class="card-num" id="p3-l3an"></div></div>
+          </div>
         </div>
       </div>
-      <div class="section">
-        <div class="section-title">🌸 ルノマン（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p3-l1a">-</div><div class="card-num" id="p3-l1an"></div></div>
-          <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p3-l2a">-</div><div class="card-num" id="p3-l2an"></div></div>
-          <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p3-l3a">-</div><div class="card-num" id="p3-l3an"></div></div>
+      <hr class="divider">
+      <div class="nayami-section">
+        <div class="nayami-title">【お悩み②】</div>
+        <div class="section">
+          <div class="section-title">🌟 タロット（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p3-t1b">-</div><div class="card-num" id="p3-t1bn"></div><div class="card-pos" id="p3-t1bp"></div></div>
+            <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p3-t2b">-</div><div class="card-num" id="p3-t2bn"></div><div class="card-pos" id="p3-t2bp"></div></div>
+            <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p3-t3b">-</div><div class="card-num" id="p3-t3bn"></div><div class="card-pos" id="p3-t3bp"></div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">🌸 ルノマン（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p3-l1b">-</div><div class="card-num" id="p3-l1bn"></div></div>
+            <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p3-l2b">-</div><div class="card-num" id="p3-l2bn"></div></div>
+            <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p3-l3b">-</div><div class="card-num" id="p3-l3bn"></div></div>
+          </div>
         </div>
       </div>
-    </div>
-    <hr class="divider">
-    <div class="nayami-section">
-      <div class="nayami-title">【お悩み②】</div>
+      <hr class="divider">
       <div class="section">
-        <div class="section-title">🌟 タロット（3枚）</div>
+        <div class="section-title">💫 オラクル（1枚）</div>
         <div class="cards-row">
-          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p3-t1b">-</div><div class="card-num" id="p3-t1bn"></div><div class="card-pos" id="p3-t1bp">-</div></div>
-          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p3-t2b">-</div><div class="card-num" id="p3-t2bn"></div><div class="card-pos" id="p3-t2bp">-</div></div>
-          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p3-t3b">-</div><div class="card-num" id="p3-t3bn"></div><div class="card-pos" id="p3-t3bp">-</div></div>
+          <div class="card-slot"><div class="card-label">メッセージ</div><div class="card-name" id="p3-o1">-</div><div class="card-num" id="p3-o1n"></div></div>
         </div>
-      </div>
-      <div class="section">
-        <div class="section-title">🌸 ルノマン（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p3-l1b">-</div><div class="card-num" id="p3-l1bn"></div></div>
-          <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p3-l2b">-</div><div class="card-num" id="p3-l2bn"></div></div>
-          <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p3-l3b">-</div><div class="card-num" id="p3-l3bn"></div></div>
-        </div>
-      </div>
-    </div>
-    <hr class="divider">
-    <div class="section">
-      <div class="section-title">💫 オラクル（1枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">メッセージ</div><div class="card-name" id="p3-o1">-</div><div class="card-num" id="p3-o1n"></div></div>
       </div>
     </div>
   </div>
 
   <div id="plan4-content" class="hidden">
-    <div class="nayami-section">
-      <div class="nayami-title">【お悩み①】</div>
-      <div class="section">
-        <div class="section-title">🌟 タロット（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p4-t1a">-</div><div class="card-num" id="p4-t1an"></div><div class="card-pos" id="p4-t1ap">-</div></div>
-          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p4-t2a">-</div><div class="card-num" id="p4-t2an"></div><div class="card-pos" id="p4-t2ap">-</div></div>
-          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p4-t3a">-</div><div class="card-num" id="p4-t3an"></div><div class="card-pos" id="p4-t3ap">-</div></div>
+    <div class="waiting" id="p4-waiting">「カードを引く」ボタンを押してね🔮</div>
+    <div id="p4-cards" class="hidden">
+      <div class="nayami-section">
+        <div class="nayami-title">【お悩み①】</div>
+        <div class="section">
+          <div class="section-title">🌟 タロット（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p4-t1a">-</div><div class="card-num" id="p4-t1an"></div><div class="card-pos" id="p4-t1ap"></div></div>
+            <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p4-t2a">-</div><div class="card-num" id="p4-t2an"></div><div class="card-pos" id="p4-t2ap"></div></div>
+            <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p4-t3a">-</div><div class="card-num" id="p4-t3an"></div><div class="card-pos" id="p4-t3ap"></div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">🌸 ルノマン（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p4-l1a">-</div><div class="card-num" id="p4-l1an"></div></div>
+            <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p4-l2a">-</div><div class="card-num" id="p4-l2an"></div></div>
+            <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p4-l3a">-</div><div class="card-num" id="p4-l3an"></div></div>
+          </div>
         </div>
       </div>
-      <div class="section">
-        <div class="section-title">🌸 ルノマン（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p4-l1a">-</div><div class="card-num" id="p4-l1an"></div></div>
-          <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p4-l2a">-</div><div class="card-num" id="p4-l2an"></div></div>
-          <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p4-l3a">-</div><div class="card-num" id="p4-l3an"></div></div>
+      <hr class="divider">
+      <div class="nayami-section">
+        <div class="nayami-title">【お悩み②】</div>
+        <div class="section">
+          <div class="section-title">🌟 タロット（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p4-t1b">-</div><div class="card-num" id="p4-t1bn"></div><div class="card-pos" id="p4-t1bp"></div></div>
+            <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p4-t2b">-</div><div class="card-num" id="p4-t2bn"></div><div class="card-pos" id="p4-t2bp"></div></div>
+            <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p4-t3b">-</div><div class="card-num" id="p4-t3bn"></div><div class="card-pos" id="p4-t3bp"></div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">🌸 ルノマン（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p4-l1b">-</div><div class="card-num" id="p4-l1bn"></div></div>
+            <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p4-l2b">-</div><div class="card-num" id="p4-l2bn"></div></div>
+            <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p4-l3b">-</div><div class="card-num" id="p4-l3bn"></div></div>
+          </div>
         </div>
       </div>
-    </div>
-    <hr class="divider">
-    <div class="nayami-section">
-      <div class="nayami-title">【お悩み②】</div>
-      <div class="section">
-        <div class="section-title">🌟 タロット（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p4-t1b">-</div><div class="card-num" id="p4-t1bn"></div><div class="card-pos" id="p4-t1bp">-</div></div>
-          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p4-t2b">-</div><div class="card-num" id="p4-t2bn"></div><div class="card-pos" id="p4-t2bp">-</div></div>
-          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p4-t3b">-</div><div class="card-num" id="p4-t3bn"></div><div class="card-pos" id="p4-t3bp">-</div></div>
+      <hr class="divider">
+      <div class="nayami-section">
+        <div class="nayami-title">【お悩み③】</div>
+        <div class="section">
+          <div class="section-title">🌟 タロット（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p4-t1c">-</div><div class="card-num" id="p4-t1cn"></div><div class="card-pos" id="p4-t1cp"></div></div>
+            <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p4-t2c">-</div><div class="card-num" id="p4-t2cn"></div><div class="card-pos" id="p4-t2cp"></div></div>
+            <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p4-t3c">-</div><div class="card-num" id="p4-t3cn"></div><div class="card-pos" id="p4-t3cp"></div></div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-title">🌸 ルノマン（3枚）</div>
+          <div class="cards-row">
+            <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p4-l1c">-</div><div class="card-num" id="p4-l1cn"></div></div>
+            <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p4-l2c">-</div><div class="card-num" id="p4-l2cn"></div></div>
+            <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p4-l3c">-</div><div class="card-num" id="p4-l3cn"></div></div>
+          </div>
         </div>
       </div>
+      <hr class="divider">
       <div class="section">
-        <div class="section-title">🌸 ルノマン（3枚）</div>
+        <div class="section-title">💫 オラクル（1枚）</div>
         <div class="cards-row">
-          <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p4-l1b">-</div><div class="card-num" id="p4-l1bn"></div></div>
-          <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p4-l2b">-</div><div class="card-num" id="p4-l2bn"></div></div>
-          <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p4-l3b">-</div><div class="card-num" id="p4-l3bn"></div></div>
+          <div class="card-slot"><div class="card-label">メッセージ</div><div class="card-name" id="p4-o1">-</div><div class="card-num" id="p4-o1n"></div></div>
         </div>
-      </div>
-    </div>
-    <hr class="divider">
-    <div class="nayami-section">
-      <div class="nayami-title">【お悩み③】</div>
-      <div class="section">
-        <div class="section-title">🌟 タロット（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">現在</div><div class="card-name" id="p4-t1c">-</div><div class="card-num" id="p4-t1cn"></div><div class="card-pos" id="p4-t1cp">-</div></div>
-          <div class="card-slot"><div class="card-label">障害</div><div class="card-name" id="p4-t2c">-</div><div class="card-num" id="p4-t2cn"></div><div class="card-pos" id="p4-t2cp">-</div></div>
-          <div class="card-slot"><div class="card-label">未来</div><div class="card-name" id="p4-t3c">-</div><div class="card-num" id="p4-t3cn"></div><div class="card-pos" id="p4-t3cp">-</div></div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="section-title">🌸 ルノマン（3枚）</div>
-        <div class="cards-row">
-          <div class="card-slot"><div class="card-label">カード1</div><div class="card-name" id="p4-l1c">-</div><div class="card-num" id="p4-l1cn"></div></div>
-          <div class="card-slot"><div class="card-label">カード2</div><div class="card-name" id="p4-l2c">-</div><div class="card-num" id="p4-l2cn"></div></div>
-          <div class="card-slot"><div class="card-label">カード3</div><div class="card-name" id="p4-l3c">-</div><div class="card-num" id="p4-l3cn"></div></div>
-        </div>
-      </div>
-    </div>
-    <hr class="divider">
-    <div class="section">
-      <div class="section-title">💫 オラクル（1枚）</div>
-      <div class="cards-row">
-        <div class="card-slot"><div class="card-label">メッセージ</div><div class="card-name" id="p4-o1">-</div><div class="card-num" id="p4-o1n"></div></div>
       </div>
     </div>
   </div>
 
   <button class="btn-main" onclick="drawAll()">✨ カードを引く</button>
-
   <div class="result-box" id="result-box"></div>
   <button class="copy-btn" id="copy-btn" style="display:none;" onclick="copyResult()">📋 結果をコピーしてプロジェクトに貼り付ける</button>
 </div>
@@ -298,11 +304,11 @@ function pickUnique(arr, n) {
 function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
 function pos() { return Math.random() > 0.5 ? '正位置' : '逆位置'; }
 
-function setCard(nameId, numId, card, p) {
+function setCard(nameId, numId, card, posId, p) {
   document.getElementById(nameId).textContent = card.n;
   document.getElementById(numId).textContent = 'No.' + card.i;
-  if(p !== undefined) {
-    const pel = document.getElementById(nameId + 'p');
+  if(posId && p !== undefined) {
+    const pel = document.getElementById(posId);
     pel.textContent = p;
     pel.className = 'card-pos' + (p==='逆位置' ? ' reversed' : '');
   }
@@ -311,10 +317,13 @@ function setCard(nameId, numId, card, p) {
 function selectPlan(n) {
   currentPlan = n;
   document.querySelectorAll('.plan-btn').forEach((b,i) => { b.classList.toggle('active', i===n-1); });
-  for(let i=1;i<=4;i++) { document.getElementById('plan'+i+'-content').classList.toggle('hidden', i!==n); }
+  for(let i=1;i<=4;i++) {
+    document.getElementById('plan'+i+'-content').classList.toggle('hidden', i!==n);
+    document.getElementById('p'+i+'-cards').classList.add('hidden');
+    document.getElementById('p'+i+'-waiting').classList.remove('hidden');
+  }
   document.getElementById('result-box').style.display = 'none';
   document.getElementById('copy-btn').style.display = 'none';
-  drawAll();
 }
 
 function drawAll() {
@@ -324,30 +333,59 @@ function drawAll() {
   const o = pick(oracle);
   let result = '';
 
+  document.getElementById('p'+currentPlan+'-waiting').classList.add('hidden');
+  document.getElementById('p'+currentPlan+'-cards').classList.remove('hidden');
+
   if(currentPlan===1) {
-    setCard('p1-t1','p1-t1n',t[0],tp[0]); setCard('p1-t2','p1-t2n',t[1],tp[1]); setCard('p1-t3','p1-t3n',t[2],tp[2]);
-    setCard('p1-l1','p1-l1n',l[0]);
+    setCard('p1-t1','p1-t1n',t[0],'p1-t1p',tp[0]);
+    setCard('p1-t2','p1-t2n',t[1],'p1-t2p',tp[1]);
+    setCard('p1-t3','p1-t3n',t[2],'p1-t3p',tp[2]);
+    setCard('p1-l1','p1-l1n',l[0],null,null);
     result = `タロット：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}\n\nルノマン：\n・${l[0].n}（No.${l[0].i}）`;
   } else if(currentPlan===2) {
-    setCard('p2-t1','p2-t1n',t[0],tp[0]); setCard('p2-t2','p2-t2n',t[1],tp[1]); setCard('p2-t3','p2-t3n',t[2],tp[2]);
-    setCard('p2-l1','p2-l1n',l[0]); setCard('p2-l2','p2-l2n',l[1]); setCard('p2-l3','p2-l3n',l[2]);
-    setCard('p2-o1','p2-o1n',o);
+    setCard('p2-t1','p2-t1n',t[0],'p2-t1p',tp[0]);
+    setCard('p2-t2','p2-t2n',t[1],'p2-t2p',tp[1]);
+    setCard('p2-t3','p2-t3n',t[2],'p2-t3p',tp[2]);
+    setCard('p2-l1','p2-l1n',l[0],null,null);
+    setCard('p2-l2','p2-l2n',l[1],null,null);
+    setCard('p2-l3','p2-l3n',l[2],null,null);
+    setCard('p2-o1','p2-o1n',o,null,null);
     result = `タロット：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}\n\nルノマン：\n・${l[0].n}（No.${l[0].i}）・${l[1].n}（No.${l[1].i}）・${l[2].n}（No.${l[2].i}）\n\nオラクル：\n・${o.n}（No.${o.i}）`;
   } else if(currentPlan===3) {
-    setCard('p3-t1a','p3-t1an',t[0],tp[0]); setCard('p3-t2a','p3-t2an',t[1],tp[1]); setCard('p3-t3a','p3-t3an',t[2],tp[2]);
-    setCard('p3-l1a','p3-l1an',l[0]); setCard('p3-l2a','p3-l2an',l[1]); setCard('p3-l3a','p3-l3an',l[2]);
-    setCard('p3-t1b','p3-t1bn',t[3],tp[3]); setCard('p3-t2b','p3-t2bn',t[4],tp[4]); setCard('p3-t3b','p3-t3bn',t[5],tp[5]);
-    setCard('p3-l1b','p3-l1bn',l[3]); setCard('p3-l2b','p3-l2bn',l[4]); setCard('p3-l3b','p3-l3bn',l[5]);
-    setCard('p3-o1','p3-o1n',o);
+    setCard('p3-t1a','p3-t1an',t[0],'p3-t1ap',tp[0]);
+    setCard('p3-t2a','p3-t2an',t[1],'p3-t2ap',tp[1]);
+    setCard('p3-t3a','p3-t3an',t[2],'p3-t3ap',tp[2]);
+    setCard('p3-l1a','p3-l1an',l[0],null,null);
+    setCard('p3-l2a','p3-l2an',l[1],null,null);
+    setCard('p3-l3a','p3-l3an',l[2],null,null);
+    setCard('p3-t1b','p3-t1bn',t[3],'p3-t1bp',tp[3]);
+    setCard('p3-t2b','p3-t2bn',t[4],'p3-t2bp',tp[4]);
+    setCard('p3-t3b','p3-t3bn',t[5],'p3-t3bp',tp[5]);
+    setCard('p3-l1b','p3-l1bn',l[3],null,null);
+    setCard('p3-l2b','p3-l2bn',l[4],null,null);
+    setCard('p3-l3b','p3-l3bn',l[5],null,null);
+    setCard('p3-o1','p3-o1n',o,null,null);
     result = `【お悩み①】\nタロット①：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}\nルノマン①：\n・${l[0].n}（No.${l[0].i}）・${l[1].n}（No.${l[1].i}）・${l[2].n}（No.${l[2].i}）\n\n【お悩み②】\nタロット②：\n・現在→${t[3].n}（No.${t[3].i}）${tp[3]}\n・障害→${t[4].n}（No.${t[4].i}）${tp[4]}\n・未来→${t[5].n}（No.${t[5].i}）${tp[5]}\nルノマン②：\n・${l[3].n}（No.${l[3].i}）・${l[4].n}（No.${l[4].i}）・${l[5].n}（No.${l[5].i}）\n\nオラクル：\n・${o.n}（No.${o.i}）`;
   } else if(currentPlan===4) {
-    setCard('p4-t1a','p4-t1an',t[0],tp[0]); setCard('p4-t2a','p4-t2an',t[1],tp[1]); setCard('p4-t3a','p4-t3an',t[2],tp[2]);
-    setCard('p4-l1a','p4-l1an',l[0]); setCard('p4-l2a','p4-l2an',l[1]); setCard('p4-l3a','p4-l3an',l[2]);
-    setCard('p4-t1b','p4-t1bn',t[3],tp[3]); setCard('p4-t2b','p4-t2bn',t[4],tp[4]); setCard('p4-t3b','p4-t3bn',t[5],tp[5]);
-    setCard('p4-l1b','p4-l1bn',l[3]); setCard('p4-l2b','p4-l2bn',l[4]); setCard('p4-l3b','p4-l3bn',l[5]);
-    setCard('p4-t1c','p4-t1cn',t[6],tp[6]); setCard('p4-t2c','p4-t2cn',t[7],tp[7]); setCard('p4-t3c','p4-t3cn',t[8],tp[8]);
-    setCard('p4-l1c','p4-l1cn',l[6]); setCard('p4-l2c','p4-l2cn',l[7]); setCard('p4-l3c','p4-l3cn',l[8]);
-    setCard('p4-o1','p4-o1n',o);
+    setCard('p4-t1a','p4-t1an',t[0],'p4-t1ap',tp[0]);
+    setCard('p4-t2a','p4-t2an',t[1],'p4-t2ap',tp[1]);
+    setCard('p4-t3a','p4-t3an',t[2],'p4-t3ap',tp[2]);
+    setCard('p4-l1a','p4-l1an',l[0],null,null);
+    setCard('p4-l2a','p4-l2an',l[1],null,null);
+    setCard('p4-l3a','p4-l3an',l[2],null,null);
+    setCard('p4-t1b','p4-t1bn',t[3],'p4-t1bp',tp[3]);
+    setCard('p4-t2b','p4-t2bn',t[4],'p4-t2bp',tp[4]);
+    setCard('p4-t3b','p4-t3bn',t[5],'p4-t3bp',tp[5]);
+    setCard('p4-l1b','p4-l1bn',l[3],null,null);
+    setCard('p4-l2b','p4-l2bn',l[4],null,null);
+    setCard('p4-l3b','p4-l3bn',l[5],null,null);
+    setCard('p4-t1c','p4-t1cn',t[6],'p4-t1cp',tp[6]);
+    setCard('p4-t2c','p4-t2cn',t[7],'p4-t2cp',tp[7]);
+    setCard('p4-t3c','p4-t3cn',t[8],'p4-t3cp',tp[8]);
+    setCard('p4-l1c','p4-l1cn',l[6],null,null);
+    setCard('p4-l2c','p4-l2cn',l[7],null,null);
+    setCard('p4-l3c','p4-l3cn',l[8],null,null);
+    setCard('p4-o1','p4-o1n',o,null,null);
     result = `【お悩み①】\nタロット①：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}\nルノマン①：\n・${l[0].n}（No.${l[0].i}）・${l[1].n}（No.${l[1].i}）・${l[2].n}（No.${l[2].i}）\n\n【お悩み②】\nタロット②：\n・現在→${t[3].n}（No.${t[3].i}）${tp[3]}\n・障害→${t[4].n}（No.${t[4].i}）${tp[4]}\n・未来→${t[5].n}（No.${t[5].i}）${tp[5]}\nルノマン②：\n・${l[3].n}（No.${l[3].i}）・${l[4].n}（No.${l[4].i}）・${l[5].n}（No.${l[5].i}）\n\n【お悩み③】\nタロット③：\n・現在→${t[6].n}（No.${t[6].i}）${tp[6]}\n・障害→${t[7].n}（No.${t[7].i}）${tp[7]}\n・未来→${t[8].n}（No.${t[8].i}）${tp[8]}\nルノマン③：\n・${l[6].n}（No.${l[6].i}）・${l[7].n}（No.${l[7].i}）・${l[8].n}（No.${l[8].i}）\n\nオラクル：\n・${o.n}（No.${o.i}）`;
   }
 
@@ -364,8 +402,6 @@ function copyResult() {
     setTimeout(() => { btn.textContent = '📋 結果をコピーしてプロジェクトに貼り付ける'; }, 3000);
   });
 }
-
-drawAll();
 </script>
 </body>
 </html>
