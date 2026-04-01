@@ -77,18 +77,6 @@
       </div>
 
       <div class="form-group">
-        <label>出生時刻<span class="required">*</span></label>
-        <input type="time" id="birthTime" style="width:100%">
-        <p class="note">わからない場合は12:00と入力してな🌸</p>
-      </div>
-
-      <div class="form-group">
-        <label>出生地<span class="required">*</span></label>
-        <input type="text" id="birthPlace" placeholder="例）京都府京都市">
-        <p class="note">都道府県と市区町村まで教えてもらえると嬉しいな🌿</p>
-      </div>
-
-      <div class="form-group">
         <label>相談内容<span class="required">*</span></label>
         <textarea id="soudan" placeholder="書ける範囲で自由に書いてな。詳しく書いてもらえるほど深い鑑定ができるよ🔮"></textarea>
         <p class="note">※相談内容は1つに絞ってな🌸<br>複数ある場合は一番気になることを書いてな✨</p>
@@ -137,12 +125,10 @@
         const profile = await liff.getProfile();
         liffUserId = profile.userId;
 
-        // 鑑定済みチェック
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
         const res = await fetch(GAS_URL + '?check=' + liffUserId);
         const json = await res.json();
 
-        // ローディング非表示
         document.getElementById('loading-area').style.display = 'none';
 
         if (json.kanteiZumi) {
@@ -159,13 +145,11 @@
     }
 
     async function submitForm() {
-      const userName   = document.getElementById('userName').value.trim();
-      const birthday   = document.getElementById('birthday').value;
-      const birthTime  = document.getElementById('birthTime').value;
-      const birthPlace = document.getElementById('birthPlace').value.trim();
-      const soudan     = document.getElementById('soudan').value.trim();
+      const userName = document.getElementById('userName').value.trim();
+      const birthday = document.getElementById('birthday').value;
+      const soudan   = document.getElementById('soudan').value.trim();
 
-      if (!userName || !birthday || !birthTime || !birthPlace || !soudan) {
+      if (!userName || !birthday || !soudan) {
         document.getElementById('error-msg').style.display = 'block';
         return;
       }
@@ -185,7 +169,7 @@
           body: JSON.stringify({
             type: 'muryou',
             userId: liffUserId,
-            userName, birthday, birthTime, birthPlace, soudan
+            userName, birthday, soudan
           })
         });
 
@@ -200,7 +184,6 @@
       }
     }
 
-    // 生年月日の設定
     const today = new Date().toISOString().split('T')[0];
     const birthdayInput = document.getElementById('birthday');
     birthdayInput.max = today;
