@@ -109,6 +109,7 @@
 
   <script>
     let liffUserId = '';
+    let kanteiZumi = false;
 
     async function initLiff() {
       try {
@@ -119,6 +120,24 @@
         }
         const profile = await liff.getProfile();
         liffUserId = profile.userId;
+
+        // バックグラウンドで鑑定済みチェック（フォームは表示したまま）
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
+        fetch(GAS_URL + '?check=' + liffUserId)
+          .then(res => res.json())
+          .then(json => {
+            if (json.kanteiZumi) {
+              // 鑑定済みなら切り替え
+              document.getElementById('form-area').style.display = 'none';
+              document.getElementById('kantei-zumi-area').style.display = 'block';
+            } else {
+              kanteiZumi = false;
+            }
+          })
+          .catch(err => {
+            console.error('チェックエラー：', err);
+          });
+
       } catch(e) {
         console.error('LIFF初期化エラー：', e);
       }
@@ -142,16 +161,6 @@
 
       try {
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
-
-        // 鑑定済みチェック
-        const checkRes = await fetch(GAS_URL + '?check=' + liffUserId);
-        const checkJson = await checkRes.json();
-
-        if (checkJson.kanteiZumi) {
-          document.getElementById('form-area').style.display = 'none';
-          document.getElementById('kantei-zumi-area').style.display = 'block';
-          return;
-        }
 
         // 即座に「受け取ったよ！」画面に切り替え
         document.getElementById('form-area').style.display = 'none';
