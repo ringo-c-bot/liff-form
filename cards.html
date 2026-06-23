@@ -57,6 +57,14 @@
     }
     .copy-btn:hover { background: rgba(123,47,247,0.5); }
     .hidden { display: none !important; }
+    
+    .canvas-container { margin-top: 16px; text-align: center; }
+    canvas { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid rgba(200,168,255,0.3); display: none; margin-bottom: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+    .download-btn {
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      border: none; color: white; font-weight: bold; font-size: 15px;
+      padding: 14px; width: 100%; border-radius: 10px; cursor: pointer; margin-top: 8px; display: none;
+    }
   </style>
 </head>
 <body>
@@ -135,6 +143,11 @@
   <button class="btn-main" onclick="drawAll()">✨ カードを引く</button>
   <div class="result-box" id="result-box"></div>
   <button class="copy-btn" id="copy-btn" style="display:none;" onclick="copyResult()">📋 結果をコピーしてプロジェクトに貼り付ける</button>
+  
+  <div class="canvas-container">
+    <canvas id="renderCanvas" width="1200" height="1100"></canvas>
+    <button class="download-btn" id="download-btn" onclick="downloadImage()">🖼 テーブル画像をダウンロード</button>
+  </div>
 </div>
 
 <script>
@@ -206,6 +219,8 @@ function selectPlan(n) {
   }
   document.getElementById('result-box').style.display = 'none';
   document.getElementById('copy-btn').style.display = 'none';
+  document.getElementById('renderCanvas').style.display = 'none';
+  document.getElementById('download-btn').style.display = 'none';
 }
 
 function drawAll() {
@@ -221,14 +236,12 @@ function drawAll() {
     setCard('p1-t1','p1-t1n',t[0],'p1-t1p',tp[0]);
     setCard('p1-t2','p1-t2n',t[1],'p1-t2p',tp[1]);
     setCard('p1-t3','p1-t3n',t[2],'p1-t3p',tp[2]);
-    
     result = `【梅：プチ鑑定】\nタロット：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}`;
   } else if(currentPlan===2) {
     setCard('p2-t1','p2-t1n',t[0],'p2-t1p',tp[0]);
     setCard('p2-t2','p2-t2n',t[1],'p2-t2p',tp[1]);
     setCard('p2-t3','p2-t3n',t[2],'p2-t3p',tp[2]);
     setCard('p2-l1','p2-l1n',l[0],null,null);
-    
     result = `【竹：本鑑定】\nタロット：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}\n\nルノマン：\n・${l[0].n}（No.${l[0].i}）`;
   } else if(currentPlan===3) {
     setCard('p3-t1','p3-t1n',t[0],'p3-t1p',tp[0]);
@@ -238,13 +251,15 @@ function drawAll() {
     setCard('p3-l2','p3-l2n',l[1],null,null);
     setCard('p3-l3','p3-l3n',l[2],null,null);
     setCard('p3-o1','p3-o1n',o,null,null);
-    
     result = `【松：プレミアム鑑定】\nタロット：\n・現在→${t[0].n}（No.${t[0].i}）${tp[0]}\n・障害→${t[1].n}（No.${t[1].i}）${tp[1]}\n・未来→${t[2].n}（No.${t[2].i}）${tp[2]}\n\nルノマン：\n・${l[0].n}（No.${l[0].i}）・${l[1].n}（No.${l[1].i}）・${l[2].n}（No.${l[2].i}）\n\nオラクル：\n・${o.n}（No.${o.i}）`;
   }
 
   document.getElementById('result-box').textContent = result;
   document.getElementById('result-box').style.display = 'block';
   document.getElementById('copy-btn').style.display = 'block';
+  
+  // Canvas描画を呼び出し
+  renderTableImage(t, tp, l, o);
 }
 
 function copyResult() {
@@ -254,6 +269,87 @@ function copyResult() {
     btn.textContent = '✅ コピーしました！プロジェクトに貼り付けてね';
     setTimeout(() => { btn.textContent = '📋 結果をコピーしてプロジェクトに貼り付ける'; }, 3000);
   });
+}
+
+// Canvas画像生成ロジック
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error('Failed to load ' + src));
+    img.src = src;
+  });
+}
+
+function drawImageWithRotation(ctx, img, x, y, width, height, reversed) {
+  if (reversed) {
+    ctx.save();
+    ctx.translate(x + width/2, y + height/2);
+    ctx.rotate(Math.PI);
+    ctx.drawImage(img, -width/2, -height/2, width, height);
+    ctx.restore();
+  } else {
+    ctx.drawImage(img, x, y, width, height);
+  }
+}
+
+async function renderTableImage(t, tp, l, o) {
+  const canvas = document.getElementById('renderCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // 背景描画
+  const bg = await loadImage('images/bg_table.png').catch(()=>null);
+  if(bg) {
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+  } else {
+    ctx.fillStyle = '#0d1a3a'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
+
+  const tw=200, th=340, gap=50;
+  const lw=200, lh=300;
+  const ow=220, oh=320;
+
+  if (currentPlan === 1) {
+    const startX = (canvas.width - (3*tw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImage(`images/tarot_${t[i].i}.png`).catch(()=>null);
+      if(img) drawImageWithRotation(ctx, img, startX + i*(tw+gap), 380, tw, th, tp[i]==='逆位置');
+    }
+  } else if (currentPlan === 2) {
+    const startX = (canvas.width - (3*tw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImage(`images/tarot_${t[i].i}.png`).catch(()=>null);
+      if(img) drawImageWithRotation(ctx, img, startX + i*(tw+gap), 200, tw, th, tp[i]==='逆位置');
+    }
+    const lImg = await loadImage(`images/lenormand_${l[0].i}.png`).catch(()=>null);
+    if(lImg) drawImageWithRotation(ctx, lImg, (canvas.width - lw)/2, 600, lw, lh, false);
+  } else if (currentPlan === 3) {
+    const startX = (canvas.width - (3*tw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImage(`images/tarot_${t[i].i}.png`).catch(()=>null);
+      if(img) drawImageWithRotation(ctx, img, startX + i*(tw+gap), 60, tw, th, tp[i]==='逆位置');
+    }
+    const startX_L = (canvas.width - (3*lw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImage(`images/lenormand_${l[i].i}.png`).catch(()=>null);
+      if(img) drawImageWithRotation(ctx, img, startX_L + i*(lw+gap), 430, lw, lh, false);
+    }
+    const oImg = await loadImage(`images/oracle_${o.i}.png`).catch(()=>null);
+    if(oImg) drawImageWithRotation(ctx, oImg, (canvas.width - ow)/2, 750, ow, oh, false);
+  }
+  
+  canvas.style.display = 'inline-block';
+  document.getElementById('download-btn').style.display = 'block';
+}
+
+function downloadImage() {
+  const canvas = document.getElementById('renderCanvas');
+  const link = document.createElement('a');
+  link.download = `結城あや_鑑定展開_${Date.now()}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
 }
 </script>
 </body>
