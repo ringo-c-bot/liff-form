@@ -421,7 +421,14 @@ ${cards}
       
       if(data.error) {
         lastError = data.error.message;
-        if(lastError.toLowerCase().includes("high demand") || lastError.includes("503") || lastError.toLowerCase().includes("quota")) {
+        const errStr = lastError.toLowerCase();
+        
+        // If it's a hard quota limit (like clicking too many times per minute)
+        if(errStr.includes("quota") || errStr.includes("429")) {
+           throw new Error(`Google AIの「1分間の連続使用制限（スパム防止）」に引っかかってしまいました💦 1分間だけ待ってから、もう一度ボタンを押してください！\n（詳細: ${lastError}）`);
+        }
+        
+        if(errStr.includes("high demand") || errStr.includes("503")) {
           // Wait 2 seconds before trying the next model
           await new Promise(r => setTimeout(r, 2000));
           continue;
@@ -433,7 +440,7 @@ ${cards}
       }
     }
 
-    if(data && data.error) throw new Error("現在GoogleのAIが世界的に大混雑しているようです💦 1分ほど待ってからもう一度お試しください！詳細: " + lastError);
+    if(data && data.error) throw new Error("現在GoogleのAIが世界的に大混雑しているようです💦 少し待ってからもう一度お試しください！詳細: " + lastError);
 
     
     let aiText = data.candidates[0].content.parts[0].text;
