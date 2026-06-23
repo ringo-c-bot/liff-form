@@ -401,7 +401,7 @@ ${cards}
     
     let targetModel = "models/gemini-1.5-flash"; // default fallback
     const available = modelData.models.filter(m => m.supportedGenerationMethods.includes("generateContent")).map(m => m.name);
-    const preferred = ["models/gemini-1.5-flash", "models/gemini-2.0-flash", "models/gemini-3.5-flash", "models/gemini-1.5-pro", "models/gemini-pro-vision"];
+    const preferred = ["models/gemini-1.5-pro", "models/gemini-1.5-flash", "models/gemini-pro-vision"];
     let validModels = preferred.filter(p => available.includes(p));
     if(validModels.length === 0) validModels = ["models/gemini-1.5-flash"];
     
@@ -423,21 +423,20 @@ ${cards}
         lastError = data.error.message;
         const errStr = lastError.toLowerCase();
         
-        // If it's a hard quota limit (like clicking too many times per minute)
-        if(errStr.includes("quota") || errStr.includes("429")) {
-           throw new Error(`Google AIの「1分間の連続使用制限（スパム防止）」に引っかかってしまいました💦 1分間だけ待ってから、もう一度ボタンを押してください！\n（詳細: ${lastError}）`);
-        }
-        
-        if(errStr.includes("high demand") || errStr.includes("503")) {
-          // Wait 2 seconds before trying the next model
-          await new Promise(r => setTimeout(r, 2000));
-          continue;
+        // If it's a quota or demand error, skip to the next model! Don't abort!
+        if(errStr.includes("quota") || errStr.includes("429") || errStr.includes("high demand") || errStr.includes("503")) {
+           await new Promise(r => setTimeout(r, 1000));
+           continue;
         } else {
           throw new Error(lastError); // Invalid key or prompt error
         }
       } else {
         break; // Success!
       }
+    }
+
+    if(data && data.error) {
+       throw new Error(`すべての無料AIモデルが制限に引っかかりました💦 日次制限の場合は明日になればリセットされます！\n（詳細: ${lastError}）`);
     }
 
     if(data && data.error) throw new Error("現在GoogleのAIが世界的に大混雑しているようです💦 少し待ってからもう一度お試しください！詳細: " + lastError);
