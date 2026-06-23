@@ -2,28 +2,33 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>鑑定書PDFメーカー</title>
+  <title>究極のオールインワン鑑定スタジオ</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Hiragino Kaku Gothic Pro', sans-serif; background: #f0f2f5; margin: 0; display: flex; height: 100vh; }
-    .sidebar { width: 450px; background: white; padding: 20px; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 10; }
+    .sidebar { width: 480px; background: white; padding: 20px; overflow-y: auto; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 10; }
     .preview-container { flex: 1; overflow-y: auto; padding: 40px; background: #e0e5ec; display: flex; flex-direction: column; align-items: center; gap: 20px; }
     
-    h1 { font-size: 20px; color: #333; margin-top: 0; }
-    .section-title { font-size: 15px; color: #7b2ff7; margin: 15px 0 10px; border-bottom: 2px solid #7b2ff7; padding-bottom: 5px; }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-weight: bold; margin-bottom: 8px; font-size: 13px; color: #555; }
-    textarea { width: 100%; height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; resize: vertical; font-size: 13px; }
+    h1 { font-size: 18px; color: #333; margin-top: 0; text-align: center; }
+    .section-title { font-size: 15px; color: #7b2ff7; margin: 20px 0 10px; border-bottom: 2px solid #7b2ff7; padding-bottom: 5px; font-weight: bold; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; font-weight: bold; margin-bottom: 5px; font-size: 13px; color: #555; }
+    textarea { width: 100%; height: 60px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: inherit; resize: vertical; font-size: 13px; box-sizing: border-box; }
     input[type="file"], input[type="text"], input[type="password"] { width: 100%; font-size: 13px; padding: 6px; box-sizing: border-box; }
     
-    .controls, .img-controls { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 5px; align-items: center; }
+    .controls, .img-controls { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 5px; align-items: center; }
     .controls button, .img-controls button { padding: 2px 6px; font-size: 11px; cursor: pointer; border: 1px solid #ccc; background: #fff; border-radius: 4px; }
     .controls span { font-size: 11px; color: #666; }
     
     .btn-main { background: linear-gradient(135deg, #7b2ff7, #f72f7b); color: white; border: none; padding: 12px; width: 100%; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; }
-    .btn-magic { background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; border: none; padding: 12px; width: 100%; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 10px; }
+    .btn-magic { background: linear-gradient(135deg, #00c6ff, #0072ff); color: white; border: none; padding: 12px; width: 100%; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,198,255,0.4); }
+    .btn-card { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: #333; border: 1px solid #ff9a9e; padding: 10px; width: 100%; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 5px; }
     
+    .plan-select { display: flex; gap: 5px; margin-bottom: 10px; }
+    .plan-btn { flex: 1; padding: 6px; font-size: 12px; border-radius: 6px; border: 1px solid #ccc; background: #f9f9f9; cursor: pointer; }
+    .plan-btn.active { background: #7b2ff7; color: white; border-color: #7b2ff7; font-weight: bold; }
+
     /* PDF Pages */
     #pdf-content { background: transparent; }
     .page { width: 794px; height: 1123px; background-color: #fff; background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
@@ -40,30 +45,30 @@
 <body>
 
 <div class="sidebar">
-  <h1>✨ 鑑定書PDFメーカー</h1>
+  <h1>✨ 究極のオールインワン鑑定スタジオ</h1>
   
-  <div class="section-title">🔮 ①AI全自動入力（魔法のボタン）</div>
-  <div class="form-group" style="background:#f9f9f9; padding:10px; border-radius:8px; border:1px solid #ddd;">
-    <label>🔑 Gemini APIキー（設定するとAI機能が使えます）</label>
-    <input type="password" id="api-key" placeholder="AIの鍵を入力..." onchange="saveApiKey()">
-    
-    <label style="margin-top:10px;">👤 お客様情報（名前・相談内容など）</label>
-    <textarea id="ai-userinfo" placeholder="例：お名前：なな様、相談内容：不妊治療について..." style="height:50px;"></textarea>
-    
-    <label style="margin-top:10px;">🎴 カード展開結果</label>
-    <textarea id="ai-cards" placeholder="カードアプリのテキストをコピペ..." style="height:50px;"></textarea>
-    
-    <label style="margin-top:10px;">🌟 ホロスコープのスクショ（複数選択可）</label>
-    <input type="file" id="ai-horoscope-images" accept="image/*" multiple>
-    <div style="font-size:11px; color:#888; margin-top:4px;">※ホロスコープの画像（円盤と表など）をまとめて選択すると、AIが星を解読します。</div>
-    
-    <button class="btn-magic" style="margin-top:15px;" onclick="generateWithAI()">✨ AIに占わせて全自動入力する！</button>
-    <div id="ai-loading" style="display:none; text-align:center; color:#0072ff; font-weight:bold; font-size:13px;">AIが魂を込めて鑑定中...（約30秒〜1分かかります）</div>
+  <div class="section-title" style="margin-top:10px;">① 🔮 カードを引く</div>
+  <div class="form-group" style="background:#fff0f5; padding:10px; border-radius:8px; border:1px solid #ffb6c1;">
+    <div class="plan-select">
+      <button class="plan-btn active" id="btn-plan-1" onclick="selectPlan(1)">【梅】1,980円</button>
+      <button class="plan-btn" id="btn-plan-2" onclick="selectPlan(2)">【竹】3,980円</button>
+      <button class="plan-btn" id="btn-plan-3" onclick="selectPlan(3)">【松】5,980円</button>
+    </div>
+    <button class="btn-card" onclick="drawAllCards()">✨ カードを引いて自動セット</button>
+    <div style="font-size:11px; color:#666; margin-top:5px; text-align:center;">※引いたカード結果は裏側でAIに渡され、画像は4P目に自動配置されます！</div>
+    <textarea id="ai-cards" style="display:none;"></textarea>
+    <!-- Card Preview controls -->
+    <div class="img-controls" style="justify-content:center; margin-top:10px;">
+      <span style="font-weight:bold;">4P目カード画像の微調整:</span>
+      <button onclick="adjImg('cards','w',10)">＋</button><button onclick="adjImg('cards','w',-10)">ー</button>
+      <button onclick="adjImg('cards','t',-10)">上</button><button onclick="adjImg('cards','t',10)">下</button>
+      <button onclick="adjImg('cards','l',-10)">左</button><button onclick="adjImg('cards','l',10)">右</button>
+    </div>
   </div>
 
-  <div class="section-title">🖼 ②画像アップロード＆調整</div>
+  <div class="section-title">② 🌟 星とお客様情報の準備</div>
   <div class="form-group">
-    <label>🌟 2P目：ホロスコープ画像（PDFに貼る用）</label>
+    <label>🌟 2P目用：ホロスコープ画像（PDF表示用）</label>
     <input type="file" accept="image/*" onchange="previewImage(event, 'img-horoscope')">
     <div class="img-controls">
       <span>サイズ:</span><button onclick="adjImg('horoscope','w',10)">＋</button><button onclick="adjImg('horoscope','w',-10)">ー</button>
@@ -71,82 +76,53 @@
       <span>左右:</span><button onclick="adjImg('horoscope','l',-10)">左</button><button onclick="adjImg('horoscope','l',10)">右</button>
     </div>
   </div>
-  
-  <div class="form-group">
-    <label>🔮 4P目：カード展開画像（PDFに貼る用）</label>
-    <input type="file" accept="image/*" onchange="previewImage(event, 'img-cards')">
-    <div class="img-controls">
-      <span>サイズ:</span><button onclick="adjImg('cards','w',10)">＋</button><button onclick="adjImg('cards','w',-10)">ー</button>
-      <span>上下:</span><button onclick="adjImg('cards','t',-10)">上</button><button onclick="adjImg('cards','t',10)">下</button>
-      <span>左右:</span><button onclick="adjImg('cards','l',-10)">左</button><button onclick="adjImg('cards','l',10)">右</button>
-    </div>
+
+  <div class="form-group" style="background:#f0f8ff; padding:10px; border-radius:8px; border:1px solid #b0c4de;">
+    <label>🤖 AI読み取り用：ホロスコープのスクショ（複数可）</label>
+    <input type="file" id="ai-horoscope-images" accept="image/*" multiple>
+    
+    <label style="margin-top:10px;">👤 お客様情報（LINEの文章をそのままドサッとコピペ！）</label>
+    <textarea id="ai-userinfo" placeholder="お名前：なな様&#10;相談内容：最近旦那が…&#10;（※LINEのメッセージをそのまま貼るだけでAIが空気を読んで解読します！）" style="height:80px;"></textarea>
+    
+    <details style="margin-top:10px; font-size:12px;">
+      <summary style="cursor:pointer; color:#7b2ff7; font-weight:bold;">🔑 Gemini APIキー設定（初回のみ）</summary>
+      <div style="margin-top:5px;">
+        <input type="password" id="api-key" placeholder="AIの鍵を入力..." onchange="saveApiKey()">
+      </div>
+    </details>
   </div>
 
-  <div class="section-title">📝 ③テキスト微調整</div>
-  <!-- Text Inputs -->
-  <div class="form-group">
-    <label>2P目：ご挨拶と本質（前編）</label>
-    <textarea id="input-p2" oninput="updateText('p2')"></textarea>
-    <div class="controls">
-      <span>サイズ:</span><button onclick="adjust('p2','fs',1)">＋</button><button onclick="adjust('p2','fs',-1)">ー</button>
-      <span>行間:</span><button onclick="adjust('p2','lh',0.1)">＋</button><button onclick="adjust('p2','lh',-0.1)">ー</button>
-      <span>余白:</span><button onclick="adjust('p2','pad',10)">広</button><button onclick="adjust('p2','pad',-10)">狭</button>
-      <span>上下:</span><button onclick="adjust('p2','top',10)">下</button><button onclick="adjust('p2','top',-10)">上</button>
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label>3P目：本質（後編）と才能</label>
-    <textarea id="input-p3" oninput="updateText('p3')"></textarea>
-    <div class="controls">
-      <span>サイズ:</span><button onclick="adjust('p3','fs',1)">＋</button><button onclick="adjust('p3','fs',-1)">ー</button>
-      <span>行間:</span><button onclick="adjust('p3','lh',0.1)">＋</button><button onclick="adjust('p3','lh',-0.1)">ー</button>
-      <span>余白:</span><button onclick="adjust('p3','pad',10)">広</button><button onclick="adjust('p3','pad',-10)">狭</button>
-    </div>
-  </div>
+  <div class="section-title">③ 🪄 魔法の全自動入力</div>
+  <button class="btn-magic" onclick="generateWithAI()">✨ AIに占わせてPDFを全自動入力する！</button>
+  <div id="ai-loading" style="display:none; text-align:center; color:#0072ff; font-weight:bold; font-size:13px; margin-bottom:10px;">AIが魂を込めて鑑定中...（約30秒〜1分かかります）</div>
 
-  <div class="form-group">
-    <label>4P目：現在の状況</label>
-    <textarea id="input-p4" oninput="updateText('p4')"></textarea>
-    <div class="controls">
-      <span>サイズ:</span><button onclick="adjust('p4','fs',1)">＋</button><button onclick="adjust('p4','fs',-1)">ー</button>
-      <span>行間:</span><button onclick="adjust('p4','lh',0.1)">＋</button><button onclick="adjust('p4','lh',-0.1)">ー</button>
-      <span>余白:</span><button onclick="adjust('p4','pad',10)">広</button><button onclick="adjust('p4','pad',-10)">狭</button>
-      <span>上下:</span><button onclick="adjust('p4','top',10)">下</button><button onclick="adjust('p4','top',-10)">上</button>
-    </div>
-  </div>
-  
-  <div class="form-group">
-    <label>5P目：障害とアドバイス</label>
-    <textarea id="input-p5" oninput="updateText('p5')"></textarea>
-    <div class="controls">
-      <span>サイズ:</span><button onclick="adjust('p5','fs',1)">＋</button><button onclick="adjust('p5','fs',-1)">ー</button>
-      <span>行間:</span><button onclick="adjust('p5','lh',0.1)">＋</button><button onclick="adjust('p5','lh',-0.1)">ー</button>
-      <span>余白:</span><button onclick="adjust('p5','pad',10)">広</button><button onclick="adjust('p5','pad',-10)">狭</button>
-    </div>
-  </div>
+  <div class="section-title">📝 ④テキスト微調整</div>
+  <!-- Text Inputs Loop -->
+  <script>
+    ['p2','p3','p4','p5','p6','p7'].forEach(id => {
+      let label = "";
+      if(id==='p2') label="2P目：ご挨拶と本質（前編）";
+      if(id==='p3') label="3P目：本質（後編）と才能";
+      if(id==='p4') label="4P目：現在の状況";
+      if(id==='p5') label="5P目：障害とアドバイス";
+      if(id==='p6') label="6P目：未来への希望";
+      if(id==='p7') label="7P目：結城あやからのメッセージ";
+      document.write(`
+        <div class="form-group">
+          <label>${label}</label>
+          <textarea id="input-${id}" oninput="updateText('${id}')"></textarea>
+          <div class="controls">
+            <span>サイズ:</span><button onclick="adjust('${id}','fs',1)">＋</button><button onclick="adjust('${id}','fs',-1)">ー</button>
+            <span>行間:</span><button onclick="adjust('${id}','lh',0.1)">＋</button><button onclick="adjust('${id}','lh',-0.1)">ー</button>
+            <span>左右余白:</span><button onclick="adjust('${id}','pad',10)">広</button><button onclick="adjust('${id}','pad',-10)">狭</button>
+            <span>上下位置:</span><button onclick="adjust('${id}','top',10)">下</button><button onclick="adjust('${id}','top',-10)">上</button>
+          </div>
+        </div>
+      `);
+    });
+  </script>
 
-  <div class="form-group">
-    <label>6P目：未来への希望</label>
-    <textarea id="input-p6" oninput="updateText('p6')"></textarea>
-    <div class="controls">
-      <span>サイズ:</span><button onclick="adjust('p6','fs',1)">＋</button><button onclick="adjust('p6','fs',-1)">ー</button>
-      <span>行間:</span><button onclick="adjust('p6','lh',0.1)">＋</button><button onclick="adjust('p6','lh',-0.1)">ー</button>
-      <span>余白:</span><button onclick="adjust('p6','pad',10)">広</button><button onclick="adjust('p6','pad',-10)">狭</button>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label>7P目：結城あやからのメッセージ</label>
-    <textarea id="input-p7" oninput="updateText('p7')"></textarea>
-    <div class="controls">
-      <span>サイズ:</span><button onclick="adjust('p7','fs',1)">＋</button><button onclick="adjust('p7','fs',-1)">ー</button>
-      <span>行間:</span><button onclick="adjust('p7','lh',0.1)">＋</button><button onclick="adjust('p7','lh',-0.1)">ー</button>
-      <span>余白:</span><button onclick="adjust('p7','pad',10)">広</button><button onclick="adjust('p7','pad',-10)">狭</button>
-    </div>
-  </div>
-
-  <button class="btn-main" onclick="generatePDF()">📥 PDFをダウンロードする</button>
+  <button class="btn-main" onclick="generatePDF()">📥 完成したPDFをダウンロードする</button>
   <div id="loading" style="display:none; text-align:center; margin-top:10px; color:#f72f7b; font-weight:bold;">高画質PDFを生成中...</div>
 </div>
 
@@ -177,8 +153,149 @@
   </div>
 </div>
 
+<!-- Hidden Canvas for rendering cards -->
+<canvas id="renderCanvas" width="1200" height="1100" style="display:none;"></canvas>
+
 <script>
-// Initialization and State
+// --- Card Logic ---
+const tarot = [
+  {n:"The Fool",i:1},{n:"The High Priestess",i:2},{n:"The Magician",i:3},{n:"The Empress",i:4},{n:"The Emperor",i:5},
+  {n:"The Hierophant",i:6},{n:"The Lovers",i:7},{n:"The Chariot",i:8},{n:"Strength",i:9},{n:"The Hermit",i:10},
+  {n:"Wheel of Fortune",i:11},{n:"Justice",i:12},{n:"The Hanged Man",i:13},{n:"Death",i:14},{n:"Temperance",i:15},
+  {n:"The Devil",i:16},{n:"The Tower",i:17},{n:"The Star",i:18},{n:"The Moon",i:19},{n:"The Sun",i:20},
+  {n:"Judgement",i:21},{n:"The World",i:22},{n:"Ace of Wands",i:23},{n:"Two of Wands",i:24},{n:"Three of Wands",i:25},
+  {n:"Four of Wands",i:26},{n:"Five of Wands",i:27},{n:"Six of Wands",i:28},{n:"Seven of Wands",i:29},{n:"Eight of Wands",i:30},
+  {n:"Nine of Wands",i:31},{n:"Ten of Wands",i:32},{n:"Page of Wands",i:33},{n:"Knight of Wands",i:34},{n:"Queen of Wands",i:35},
+  {n:"King of Wands",i:36},{n:"Ace of Cups",i:37},{n:"Two of Cups",i:38},{n:"Three of Cups",i:39},{n:"Four of Cups",i:40},
+  {n:"Five of Cups",i:41},{n:"Six of Cups",i:42},{n:"Seven of Cups",i:43},{n:"Eight of Cups",i:44},{n:"Nine of Cups",i:45},
+  {n:"Ten of Cups",i:46},{n:"Page of Cups",i:47},{n:"Knight of Cups",i:48},{n:"Queen of Cups",i:49},{n:"King of Cups",i:50},
+  {n:"Ace of Swords",i:51},{n:"Two of Swords",i:52},{n:"Three of Swords",i:53},{n:"Four of Swords",i:54},{n:"Five of Swords",i:55},
+  {n:"Six of Swords",i:56},{n:"Seven of Swords",i:57},{n:"Eight of Swords",i:58},{n:"Nine of Swords",i:59},{n:"Ten of Swords",i:60},
+  {n:"Page of Swords",i:61},{n:"Knight of Swords",i:62},{n:"Queen of Swords",i:63},{n:"King of Swords",i:64},
+  {n:"Ace of Pentacles",i:65},{n:"Two of Pentacles",i:66},{n:"Three of Pentacles",i:67},{n:"Four of Pentacles",i:68},{n:"Five of Pentacles",i:69},
+  {n:"Six of Pentacles",i:70},{n:"Seven of Pentacles",i:71},{n:"Eight of Pentacles",i:72},{n:"Nine of Pentacles",i:73},{n:"Ten of Pentacles",i:74},
+  {n:"Page of Pentacles",i:75},{n:"Knight of Pentacles",i:76},{n:"Queen of Pentacles",i:77},{n:"King of Pentacles",i:78}
+];
+const lenormand = [
+  {n:"Rider",i:1},{n:"Clover",i:2},{n:"Ship",i:3},{n:"House",i:4},{n:"Tree",i:5},
+  {n:"Clouds",i:6},{n:"Snake",i:7},{n:"Coffin",i:8},{n:"Bouquet",i:9},{n:"Scythe",i:10},
+  {n:"Whip",i:11},{n:"Birds",i:12},{n:"Child",i:13},{n:"Fox",i:14},{n:"Bear",i:15},
+  {n:"Stars",i:16},{n:"Stork",i:17},{n:"Dog",i:18},{n:"Tower",i:19},{n:"Garden",i:20},
+  {n:"Mountain",i:21},{n:"Crossroads",i:22},{n:"Mice",i:23},{n:"Heart",i:24},{n:"Ring",i:25},
+  {n:"Book",i:26},{n:"Letter",i:27},{n:"Man",i:28},{n:"Woman",i:29},{n:"Lily",i:30},
+  {n:"Sun",i:31},{n:"Moon",i:32},{n:"Key",i:33},{n:"Fish",i:34},{n:"Anchor",i:35},{n:"Cross",i:36}
+];
+const oracle = [
+  {n:"The Cosmic Gateway",i:1},{n:"Celestial Balance",i:2},{n:"The Star Weaver",i:3},{n:"Lunar Radiance",i:4},{n:"The Cosmic Heart",i:5},
+  {n:"Stellar Alignment",i:6},{n:"The Dreamer's Sky",i:7},{n:"Galactic Wings",i:8},{n:"Cosmic Abundance",i:9},{n:"Stardust Path",i:10},
+  {n:"The Celestial Crown",i:11},{n:"Nebula of Creation",i:12},{n:"The Guiding Star",i:13},{n:"The Celestial Sun",i:14},{n:"Infinite Horizons",i:15},
+  {n:"The Star Child",i:16},{n:"Celestial Protection",i:17},{n:"The Stellar Compass",i:18},{n:"Sacred Constellations",i:19},{n:"The Cosmic Mirror",i:20},
+  {n:"The Aurora's Gift",i:21},{n:"Galactic Harmony",i:22},{n:"The Moon's Whisper",i:23},{n:"The Starry Embrace",i:24},{n:"Eclipsed Truth",i:25},
+  {n:"The Sacred Spiral",i:26},{n:"Universal Flow",i:27},{n:"Radiant Intentions",i:28},{n:"Galactic Dreams",i:29},{n:"Stellar Wisdom",i:30},
+  {n:"The Cosmic Dance",i:31},{n:"The Twin Stars",i:32},{n:"The Starfall",i:33},{n:"The Celestial Chalice",i:34},{n:"The Solar Garden",i:35},
+  {n:"The Celestial Bridge",i:36},{n:"The Cosmic Flame",i:37},{n:"The Stellar Temple",i:38},{n:"The Cosmic Thread",i:39},{n:"The Star Gate",i:40},
+  {n:"The Cosmic Seed",i:41},{n:"The Radiant Crown",i:42},{n:"The Nebula's Song",i:43},{n:"The Eternal Star",i:44}
+];
+
+let currentPlan = 1;
+
+function selectPlan(n) {
+  currentPlan = n;
+  document.querySelectorAll('.plan-btn').forEach((b,i) => { b.classList.toggle('active', i===n-1); });
+}
+
+function pickUnique(arr, n) {
+  const copy = [...arr]; const result = [];
+  for(let i=0;i<n;i++){ const idx=Math.floor(Math.random()*copy.length); result.push(copy.splice(idx,1)[0]); }
+  return result;
+}
+function pick(arr) { return arr[Math.floor(Math.random()*arr.length)]; }
+function pos() { return Math.random() > 0.5 ? '正位置' : '逆位置'; }
+
+function loadImageObj(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null); // fail gracefully
+    img.src = src;
+  });
+}
+
+function drawImgRotated(ctx, img, x, y, w, h, rev) {
+  if (rev) {
+    ctx.save(); ctx.translate(x + w/2, y + h/2); ctx.rotate(Math.PI);
+    ctx.drawImage(img, -w/2, -h/2, w, h); ctx.restore();
+  } else {
+    ctx.drawImage(img, x, y, w, h);
+  }
+}
+
+async function drawAllCards() {
+  const t = pickUnique(tarot, 3); const tp = Array.from({length:3}, pos);
+  const l = pickUnique(lenormand, 3); const o = pick(oracle);
+  
+  let result = '';
+  if(currentPlan===1) {
+    result = `タロット:\n・現在→${t[0].n} ${tp[0]}\n・障害→${t[1].n} ${tp[1]}\n・未来→${t[2].n} ${tp[2]}`;
+  } else if(currentPlan===2) {
+    result = `タロット:\n・現在→${t[0].n} ${tp[0]}\n・障害→${t[1].n} ${tp[1]}\n・未来→${t[2].n} ${tp[2]}\nルノマン:\n・${l[0].n}`;
+  } else {
+    result = `タロット:\n・現在→${t[0].n} ${tp[0]}\n・障害→${t[1].n} ${tp[1]}\n・未来→${t[2].n} ${tp[2]}\nルノマン:\n・${l[0].n}・${l[1].n}・${l[2].n}\nオラクル:\n・${o.n}`;
+  }
+  
+  document.getElementById('ai-cards').value = result;
+  
+  // Render Canvas
+  const canvas = document.getElementById('renderCanvas');
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  const bg = await loadImageObj('images/bg_table.png');
+  if(bg) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+  else { ctx.fillStyle = '#1a0a3e'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+
+  const tw=200, th=340, gap=50, lw=200, lh=300, ow=220, oh=320;
+  
+  if (currentPlan === 1) {
+    const startX = (canvas.width - (3*tw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImageObj(`images/tarot_${t[i].i}.png`);
+      if(img) drawImgRotated(ctx, img, startX + i*(tw+gap), 380, tw, th, tp[i]==='逆位置');
+    }
+  } else if (currentPlan === 2) {
+    const startX = (canvas.width - (3*tw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImageObj(`images/tarot_${t[i].i}.png`);
+      if(img) drawImgRotated(ctx, img, startX + i*(tw+gap), 200, tw, th, tp[i]==='逆位置');
+    }
+    const lImg = await loadImageObj(`images/lenormand_${l[0].i}.png`);
+    if(lImg) drawImgRotated(ctx, lImg, (canvas.width - lw)/2, 600, lw, lh, false);
+  } else if (currentPlan === 3) {
+    const startX = (canvas.width - (3*tw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImageObj(`images/tarot_${t[i].i}.png`);
+      if(img) drawImgRotated(ctx, img, startX + i*(tw+gap), 60, tw, th, tp[i]==='逆位置');
+    }
+    const startX_L = (canvas.width - (3*lw + 2*gap)) / 2;
+    for(let i=0; i<3; i++) {
+      const img = await loadImageObj(`images/lenormand_${l[i].i}.png`);
+      if(img) drawImgRotated(ctx, img, startX_L + i*(lw+gap), 430, lw, lh, false);
+    }
+    const oImg = await loadImageObj(`images/oracle_${o.i}.png`);
+    if(oImg) drawImgRotated(ctx, oImg, (canvas.width - ow)/2, 750, ow, oh, false);
+  }
+  
+  // Set image to preview
+  const dataUrl = canvas.toDataURL('image/png');
+  const previewImg = document.getElementById('img-cards');
+  previewImg.src = dataUrl;
+  previewImg.style.display = 'block';
+  
+  alert("カードを引きました！結果は自動で裏側に保存され、画像は4P目にセットされました！✨");
+}
+
+
+// --- PDF Maker Logic ---
 const styles = {};
 ['p2','p3','p4','p5','p6','p7'].forEach(id => {
   styles[id] = { fs: 16, lh: 1.6, pad: 100, top: (id==='p2'?550:(id==='p4'?600:120)) };
@@ -193,13 +310,8 @@ window.onload = () => {
   if(savedKey) document.getElementById('api-key').value = savedKey;
 };
 
-function saveApiKey() {
-  localStorage.setItem('geminiApiKey', document.getElementById('api-key').value);
-}
-
-function updateText(id) {
-  document.getElementById('text-' + id).textContent = document.getElementById('input-' + id).value;
-}
+function saveApiKey() { localStorage.setItem('geminiApiKey', document.getElementById('api-key').value); }
+function updateText(id) { document.getElementById('text-' + id).textContent = document.getElementById('input-' + id).value; }
 
 function previewImage(event, imgId) {
   const file = event.target.files[0];
@@ -214,7 +326,6 @@ function previewImage(event, imgId) {
   }
 }
 
-// Adjustments
 function adjust(id, prop, amount) {
   styles[id][prop] += amount;
   const el = document.getElementById('text-' + id);
@@ -236,11 +347,7 @@ function adjImg(id, prop, amount) {
 async function fileToGenerativePart(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.onloadend = () => {
-      resolve({
-        inlineData: { data: reader.result.split(",")[1], mimeType: file.type }
-      });
-    };
+    reader.onloadend = () => { resolve({ inlineData: { data: reader.result.split(",")[1], mimeType: file.type } }); };
     reader.readAsDataURL(file);
   });
 }
@@ -253,8 +360,11 @@ async function generateWithAI() {
   const cards = document.getElementById('ai-cards').value;
   const files = document.getElementById('ai-horoscope-images').files;
   
-  if(!userInfo || !cards || files.length === 0) {
-    alert("お客様情報、カード結果、ホロスコープ画像（星読み用）の3つをすべてセットしてください！"); return;
+  if(!userInfo || !cards) {
+    alert("お客様情報か、カード結果（カードを引く）がセットされていません！"); return;
+  }
+  if(files.length === 0) {
+    if(!confirm("ホロスコープの画像が選択されていません！星読みなしでカードだけで占いますか？")) return;
   }
   
   document.getElementById('ai-loading').style.display = 'block';
@@ -262,16 +372,16 @@ async function generateWithAI() {
   try {
     const imageParts = await Promise.all([...files].map(fileToGenerativePart));
     
-    const prompt = `
+    let prompt = `
 あなたは「プロの星読み＆カード鑑定士・結城あや」です。
-提供されたホロスコープ画像（複数枚）の天体配置・アスペクトと、カード結果をもとに、悩めるお客様への有料鑑定書を作成してください。
+提供されたホロスコープ画像（もしあれば）とカード結果をもとに、お客様（名前や相談内容はLINE本文から読み取ってください）への有料鑑定書を作成してください。
 以下の指定フォーマットのJSONのみを出力してください。それ以外の文字は一切不要です。
 必ず上品で優しく包み込むような標準語で、お客様が「なんでわかるの！？」と驚き、心が軽くなる文章にしてください。箇条書きは禁止です。
 
-【お客様情報・相談内容】
+【お客様からのLINEメッセージ（ここから名前や状況を読み取って共感してください）】
 ${userInfo}
 
-【カード結果】
+【引いたカード結果】
 ${cards}
 
 【出力JSONフォーマット】
@@ -279,25 +389,21 @@ ${cards}
   "p2": "○○というお気持ち、受け取りました...（から始まる、ホロスコープからの本質前編。約300文字）",
   "p3": "あなたは実はこういう方です...（などを用いた、本質後編・才能・使命。なぜ今うまくいかないかの核心。約700文字）",
   "p4": "（タロット1枚目の正逆位置を明記し、現在の状況と共感ワード。約300文字）",
-  "p5": "（タロット2枚目とルノマンからの、障害と今すぐできるアドバイス。責めない。約700文字）",
+  "p5": "（タロット2枚目などからの、障害と今すぐできるアドバイス。責めない。約700文字）",
   "p6": "（タロット3枚目からの未来への希望と具体的なアドバイス。大丈夫という安心感。約700文字）",
   "p7": "（鑑定全体を通じての結城あやからの応援メッセージ。あなたなら大丈夫。ゆっくり受け取って。約400文字）"
 }
     `;
 
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }, ...imageParts] }]
-      })
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, ...imageParts] }] })
     });
 
     const data = await response.json();
     if(data.error) throw new Error(data.error.message);
     
     let aiText = data.candidates[0].content.parts[0].text;
-    // Extract JSON if wrapped in markdown
     aiText = aiText.replace(/```json/g, "").replace(/```/g, "").trim();
     const result = JSON.parse(aiText);
     
@@ -308,7 +414,7 @@ ${cards}
       }
     });
     
-    alert("AI鑑定が完了し、自動入力されました！✨");
+    alert("✨ AI鑑定が完了し、2〜7P目に自動入力されました！");
   } catch (err) {
     alert("エラーが発生しました: " + err.message);
   } finally {
