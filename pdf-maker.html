@@ -36,9 +36,9 @@
     .pdf-image { position: absolute; z-index: 5; object-fit: contain; }
     
     /* Defaults */
-    #img-horoscope { top: 150px; left: 100px; width: 594px; height: 350px; }
+    #img-horoscope { top: 150px; left: 100px; width: 594px; height: auto; }
     #text-p2 { top: 550px; }
-    #img-cards { top: 150px; left: 50px; width: 694px; height: 400px; }
+    #img-cards { top: 150px; left: 50px; width: 694px; height: auto; }
     #text-p4 { top: 600px; }
   </style>
 </head>
@@ -395,7 +395,7 @@ ${cards}
 }
     `;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }, ...imageParts] }] })
     });
