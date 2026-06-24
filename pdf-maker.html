@@ -60,9 +60,9 @@
 
     /* Theme Overrides (Pink) */
     .theme-pink .p1-title { display: none; }
-    .theme-pink .p1-name { color: #8c5e42; top: 620px; font-size: 22px; font-weight: bold; letter-spacing: 4px; }
-    .theme-pink .p1-date { color: #8c5e42; top: 860px; font-size: 16px; font-weight: bold; letter-spacing: 2px; opacity: 1; }
-    .p8-link-pink { position: absolute; left: 350px; font-family: 'Noto Serif JP', serif; font-size: 16px; color: #8c5e42; text-decoration: none; letter-spacing: 1px; }
+    .theme-pink .p1-name { color: #8c5e42; top: 760px; font-size: 22px; font-weight: bold; letter-spacing: 4px; }
+    .theme-pink .p1-date { color: #8c5e42; top: 880px; font-size: 16px; font-weight: bold; letter-spacing: 2px; opacity: 1; }
+    .p8-link-pink { position: absolute; left: 330px; font-family: 'Noto Serif JP', serif; font-size: 16px; color: #8c5e42; text-decoration: none; letter-spacing: 1px; }
   </style>
 </head>
 <body>
@@ -193,6 +193,17 @@
     </div>
   </div>
 
+  <!-- Page 8 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【8P目：裏表紙リンク設定】</label>
+    <div style="font-size:11px; margin-bottom:5px;">サイトURL:</div>
+    <input type="text" id="input-url-1" value="https://yuki-aya.stores.jp/" oninput="updateUrls()" style="margin-bottom:5px;">
+    <div style="font-size:11px; margin-bottom:5px;">公式LINE URL:</div>
+    <input type="text" id="input-url-2" value="https://lin.ee/xxxxx" oninput="updateUrls()" style="margin-bottom:5px;">
+    <div style="font-size:11px; margin-bottom:5px;">SNS (Threads) URL:</div>
+    <input type="text" id="input-url-3" value="https://www.threads.net/@yuki_aya" oninput="updateUrls()">
+  </div>
+
   <button class="btn-main" onclick="generatePDF()">📥 完成したPDFをダウンロード</button>
   <div id="loading" style="display:none; text-align:center; margin-top:10px; color:#f72f7b; font-weight:bold;">高画質PDFを生成中...</div>
 </div>
@@ -248,9 +259,9 @@
         </div>
       </div>
       <div id="p8-pink" style="display:none; position:absolute; width:100%; height:100%;">
-        <a href="https://aya-galmiko.stores.jp/" target="_blank" class="p8-link-pink" style="top: 660px;">https://aya-galmiko.stores.jp/</a>
-        <a href="https://lin.ee/yDhtiAO" target="_blank" class="p8-link-pink" style="top: 765px;">https://lin.ee/yDhtiAO</a>
-        <a href="https://www.threads.net/@aya_galmiko" target="_blank" class="p8-link-pink" style="top: 865px;">https://www.threads.net/@aya_galmiko</a>
+        <a href="https://yuki-aya.stores.jp/" target="_blank" id="p8-pink-url-1" class="p8-link-pink" style="top: 735px;">https://yuki-aya.stores.jp/</a>
+        <a href="https://lin.ee/xxxxx" target="_blank" id="p8-pink-url-2" class="p8-link-pink" style="top: 835px;">https://lin.ee/xxxxx</a>
+        <a href="https://www.threads.net/@yuki_aya" target="_blank" id="p8-pink-url-3" class="p8-link-pink" style="top: 935px;">https://www.threads.net/@yuki_aya</a>
       </div>
     </div>
   </div>
@@ -301,7 +312,7 @@ const oracle = [
 ];
 
 let currentPlan = 1;
-let currentTheme = 'blue';
+let currentTheme = 'pink'; // ピンクをデフォルトに変更
 
 function switchTheme(theme) {
   currentTheme = theme;
@@ -434,9 +445,22 @@ window.onload = () => {
   const dateStr = `鑑定日：${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
   document.getElementById('input-p1-date').value = dateStr;
   document.getElementById('text-p1-date').textContent = dateStr;
+  
+  // 初期テーマを適用
+  switchTheme(currentTheme);
 };
 
 function saveApiKey() { localStorage.setItem('geminiApiKey', document.getElementById('api-key').value); }
+function updateUrls() {
+  const u1 = document.getElementById('input-url-1').value;
+  const u2 = document.getElementById('input-url-2').value;
+  const u3 = document.getElementById('input-url-3').value;
+  
+  // Pink
+  document.getElementById('p8-pink-url-1').href = u1; document.getElementById('p8-pink-url-1').textContent = u1;
+  document.getElementById('p8-pink-url-2').href = u2; document.getElementById('p8-pink-url-2').textContent = u2;
+  document.getElementById('p8-pink-url-3').href = u3; document.getElementById('p8-pink-url-3').textContent = u3;
+}
 function updateText(id) { 
   const el = document.getElementById('text-' + id);
   if(el) {
