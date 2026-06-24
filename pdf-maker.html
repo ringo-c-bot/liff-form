@@ -57,12 +57,25 @@
     #text-p4 { top: 620px; }
     #img-profile { top: 100px; width: 450px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     #text-p7 { top: 560px; }
+
+    /* Theme Overrides (Pink) */
+    .theme-pink .p1-title { display: none; }
+    .theme-pink .p1-name { color: #8c5e42; top: 620px; font-size: 22px; font-weight: bold; letter-spacing: 4px; }
+    .theme-pink .p1-date { color: #8c5e42; top: 860px; font-size: 16px; font-weight: bold; letter-spacing: 2px; opacity: 1; }
+    .p8-link-pink { position: absolute; left: 350px; font-family: 'Noto Serif JP', serif; font-size: 16px; color: #8c5e42; text-decoration: none; letter-spacing: 1px; }
   </style>
 </head>
 <body>
 
 <div class="sidebar">
   <h1>✨ 究極のオールインワン鑑定スタジオ</h1>
+
+  <!-- Theme Setup -->
+  <div class="section-title">🎨 テーマ設定</div>
+  <div class="plan-select" style="margin-bottom:15px;">
+    <button class="plan-btn active" id="btn-theme-blue" onclick="switchTheme('blue')">🌌 ギャル巫女 (青)</button>
+    <button class="plan-btn" id="btn-theme-pink" onclick="switchTheme('pink')">🌸 結城あや (ピンク)</button>
+  </div>
 
   <!-- AI API and Global Setup -->
   <div class="section-title">事前準備（お客様情報とAI設定）</div>
@@ -186,7 +199,7 @@
 
 <div class="preview-container">
   <div id="pdf-content">
-    <div class="page" id="page1" style="background-image: url('images/bg_1.png');">
+    <div class="page theme-blue" id="page1" style="background-image: url('images/bg_1.png');">
       <div id="text-p1-name" class="p1-name">〇〇 〇〇 様</div>
       <div id="text-p1-title" class="p1-title">星読み×タロット<br>鑑定書</div>
       <div id="text-p1-date" class="p1-date">鑑定日：〇〇〇〇年〇〇月〇〇日</div>
@@ -213,7 +226,7 @@
       <div id="text-p7" class="pdf-text"></div>
     </div>
     <div class="page" id="page8" style="background-image: url('images/bg_8.png');">
-      <div class="p8-container">
+      <div id="p8-blue" class="p8-container">
         <img src="images/profile.png" id="img-profile8-1" class="p8-logo" onerror="this.style.display='none';">
         
         <div class="p8-link-title">サイトURL</div>
@@ -233,6 +246,11 @@
              <a href="https://www.threads.net/@aya_galmiko" class="p8-link-url" target="_blank">https://www.threads.net/@aya_galmiko</a>
            </div>
         </div>
+      </div>
+      <div id="p8-pink" style="display:none; position:absolute; width:100%; height:100%;">
+        <a href="https://aya-galmiko.stores.jp/" target="_blank" class="p8-link-pink" style="top: 660px;">https://aya-galmiko.stores.jp/</a>
+        <a href="https://lin.ee/yDhtiAO" target="_blank" class="p8-link-pink" style="top: 765px;">https://lin.ee/yDhtiAO</a>
+        <a href="https://www.threads.net/@aya_galmiko" target="_blank" class="p8-link-pink" style="top: 865px;">https://www.threads.net/@aya_galmiko</a>
       </div>
     </div>
   </div>
@@ -283,6 +301,24 @@ const oracle = [
 ];
 
 let currentPlan = 1;
+let currentTheme = 'blue';
+
+function switchTheme(theme) {
+  currentTheme = theme;
+  document.getElementById('btn-theme-blue').classList.toggle('active', theme === 'blue');
+  document.getElementById('btn-theme-pink').classList.toggle('active', theme === 'pink');
+  
+  for(let i=1; i<=8; i++) {
+    document.getElementById('page'+i).style.backgroundImage = `url('images/bg_${theme==='pink'?'pink_':''}${i}.png')`;
+  }
+  
+  document.getElementById('page1').className = 'page theme-' + theme;
+  document.getElementById('p8-blue').style.display = theme === 'blue' ? 'block' : 'none';
+  document.getElementById('p8-pink').style.display = theme === 'pink' ? 'block' : 'none';
+  
+  styles['p1-name'].top = theme === 'pink' ? 620 : 580;
+  document.getElementById('text-p1-name').style.top = ''; 
+}
 
 function selectPlan(n) {
   currentPlan = n;
