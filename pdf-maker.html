@@ -52,9 +52,9 @@
 
     /* Layout Defaults */
     #img-horoscope { top: 80px; width: 500px; height: auto; }
-    #text-p2 { top: 650px; }
+    #text-p2 { top: 580px; }
     #img-cards { top: 80px; width: 550px; height: auto; }
-    #text-p4 { top: 700px; }
+    #text-p4 { top: 620px; }
     #img-profile { top: 100px; width: 450px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     #text-p7 { top: 560px; }
   </style>
@@ -380,7 +380,7 @@ async function drawAllCards() {
 // --- Layout Logic ---
 const styles = {};
 ['p2','p3','p4','p5','p6','p7'].forEach(id => {
-  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?650:(id==='p4'?700:(id==='p7'?560:120))) };
+  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?580:(id==='p4'?620:(id==='p7'?560:120))) };
 });
 styles['p1-name'] = { top: 580 };
 
