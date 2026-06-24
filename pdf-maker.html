@@ -34,7 +34,7 @@
     .page { width: 794px; height: 1123px; background-color: #fff; background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     
     /* Center Absolute Alignment Elements */
-    .pdf-text { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: #333; white-space: pre-wrap; line-height: 1.6; font-size: 20px; width: 80%; left: 50%; transform: translateX(-50%); top: 120px; }
+    .pdf-text { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: #333; white-space: pre-wrap; line-height: 1.6; font-size: 20px; width: 72%; left: 50%; transform: translateX(-50%); top: 120px; }
     .pdf-image { position: absolute; z-index: 5; object-fit: contain; left: 50%; transform: translateX(-50%); }
 
     /* Page 1 Specific */
@@ -56,7 +56,7 @@
     #img-cards { top: 80px; width: 550px; height: auto; }
     #text-p4 { top: 700px; }
     #img-profile { top: 100px; width: 450px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    #text-p7 { top: 620px; }
+    #text-p7 { top: 560px; }
   </style>
 </head>
 <body>
@@ -380,7 +380,7 @@ async function drawAllCards() {
 // --- Layout Logic ---
 const styles = {};
 ['p2','p3','p4','p5','p6','p7'].forEach(id => {
-  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?650:(id==='p4'?700:(id==='p7'?620:120))) };
+  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?650:(id==='p4'?700:(id==='p7'?560:120))) };
 });
 styles['p1-name'] = { top: 580 };
 
