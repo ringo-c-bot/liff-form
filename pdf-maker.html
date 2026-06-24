@@ -51,11 +51,11 @@
     .p8-icon { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
 
     /* Layout Defaults */
-    #img-horoscope { top: 150px; width: 635px; height: auto; }
-    #text-p2 { top: 550px; }
-    #img-cards { top: 150px; width: 635px; height: auto; }
-    #text-p4 { top: 600px; }
-    #img-profile { top: 130px; width: 450px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    #img-horoscope { top: 80px; width: 500px; height: auto; }
+    #text-p2 { top: 650px; }
+    #img-cards { top: 80px; width: 550px; height: auto; }
+    #text-p4 { top: 700px; }
+    #img-profile { top: 100px; width: 450px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
     #text-p7 { top: 620px; }
   </style>
 </head>
@@ -96,10 +96,10 @@
   <!-- Page 1 -->
   <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
     <label>【1P目：表紙】</label>
-    <input type="text" id="input-p1-name" placeholder="例：なな 様" oninput="updateText('p1-name')">
+    <input type="text" id="input-p1-name" placeholder="例：なな" oninput="updateText('p1-name')">
     <div class="controls">
       <span>名前位置:</span><button onclick="adjust('p1-name','top',10)">下</button><button onclick="adjust('p1-name','top',-10)">上</button>
-      <span>日付:</span><input type="text" id="input-p1-date" style="width:130px; display:inline;" oninput="updateText('p1-date')">
+      <span>日付:</span><input type="text" id="input-p1-date" style="width:180px; display:inline;" oninput="updateText('p1-date')">
     </div>
   </div>
 
@@ -380,14 +380,14 @@ async function drawAllCards() {
 // --- Layout Logic ---
 const styles = {};
 ['p2','p3','p4','p5','p6','p7'].forEach(id => {
-  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?550:(id==='p4'?600:(id==='p7'?650:120))) };
+  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?650:(id==='p4'?700:(id==='p7'?620:120))) };
 });
 styles['p1-name'] = { top: 580 };
 
 const imgStyles = {
-  horoscope: { w: 635, t: 150 },
-  cards: { w: 635, t: 150 },
-  profile: { w: 450, t: 130 }
+  horoscope: { w: 500, t: 80 },
+  cards: { w: 550, t: 80 },
+  profile: { w: 450, t: 100 }
 };
 
 window.onload = () => {
@@ -403,7 +403,15 @@ window.onload = () => {
 function saveApiKey() { localStorage.setItem('geminiApiKey', document.getElementById('api-key').value); }
 function updateText(id) { 
   const el = document.getElementById('text-' + id);
-  if(el) el.textContent = document.getElementById('input-' + id).value; 
+  if(el) {
+    if(id === 'p1-name') {
+       let val = document.getElementById('input-' + id).value.trim();
+       if(val && !val.endsWith('様')) val += ' 様';
+       el.textContent = val;
+    } else {
+       el.textContent = document.getElementById('input-' + id).value; 
+    }
+  }
 }
 
 function previewImage(event, imgId) {
@@ -479,7 +487,7 @@ ${cards}
 
 【出力JSONフォーマット】
 {
-  "p1_name": "〇〇 様",
+  "p1_name": "お客様のお名前（※『様』は不要。例：なな）",
   "p2": "○○というお気持ち、受け取りました...（から始まる、ホロスコープからの本質前編。約300文字）",
   "p3": "あなたは実はこういう方です...（などを用いた、本質後編・才能・使命。なぜ今うまくいかないかの核心。約700文字）",
   "p4": "（タロット1枚目の正逆位置を明記し、現在の状況と共感ワード。約300文字）",
