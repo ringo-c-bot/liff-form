@@ -32,103 +32,165 @@
     /* PDF Pages */
     #pdf-content { background: transparent; }
     .page { width: 794px; height: 1123px; background-color: #fff; background-size: cover; background-position: center; position: relative; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-    .pdf-text { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: #333; white-space: pre-wrap; line-height: 1.6; font-size: 16px; top: 120px; left: 100px; right: 100px; bottom: 120px; }
-    .pdf-image { position: absolute; z-index: 5; object-fit: contain; }
     
-    /* Defaults */
-    #img-horoscope { top: 150px; left: 100px; width: 594px; height: auto; }
+    /* Center Absolute Alignment Elements */
+    .pdf-text { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: #333; white-space: pre-wrap; line-height: 1.6; font-size: 20px; width: 80%; left: 50%; transform: translateX(-50%); top: 120px; }
+    .pdf-image { position: absolute; z-index: 5; object-fit: contain; left: 50%; transform: translateX(-50%); }
+
+    /* Page 1 Specific */
+    .p1-name { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: white; font-size: 24px; top: 580px; left: 50%; transform: translateX(-50%); text-align: center; letter-spacing: 2px; }
+    .p1-title { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: white; font-size: 32px; top: 680px; left: 50%; transform: translateX(-50%); text-align: center; letter-spacing: 5px; line-height: 1.5; }
+    .p1-date { position: absolute; z-index: 10; font-family: 'Noto Serif JP', serif; color: white; font-size: 14px; top: 960px; left: 50%; transform: translateX(-50%); text-align: center; letter-spacing: 2px; opacity: 0.8; }
+
+    /* Page 8 Specific */
+    .p8-container { position: absolute; top: 250px; left: 50%; transform: translateX(-50%); width: 80%; color: white; text-align: center; font-family: 'Noto Serif JP', serif; }
+    .p8-logo { width: 300px; margin-bottom: 50px; }
+    .p8-divider { border-top: 2px dotted rgba(255,255,255,0.4); margin: 30px 0; }
+    .p8-link-title { font-size: 20px; margin-bottom: 10px; letter-spacing: 1px; }
+    .p8-link-url { font-size: 16px; color: #fff; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.5); padding-bottom: 2px; display: inline-block; }
+    .p8-icon { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid white; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+
+    /* Layout Defaults */
+    #img-horoscope { top: 150px; width: 594px; height: auto; }
     #text-p2 { top: 550px; }
-    #img-cards { top: 150px; left: 50px; width: 694px; height: auto; }
+    #img-cards { top: 150px; width: 694px; height: auto; }
     #text-p4 { top: 600px; }
+    #img-profile { top: 100px; width: 450px; height: auto; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    #text-p7 { top: 650px; }
   </style>
 </head>
 <body>
 
 <div class="sidebar">
   <h1>✨ 究極のオールインワン鑑定スタジオ</h1>
-  
-  <div class="section-title" style="margin-top:10px;">① 🔮 カードを引く</div>
-  <div class="form-group" style="background:#fff0f5; padding:10px; border-radius:8px; border:1px solid #ffb6c1;">
-    <div class="plan-select">
-      <button class="plan-btn active" id="btn-plan-1" onclick="selectPlan(1)">【梅】1,980円</button>
-      <button class="plan-btn" id="btn-plan-2" onclick="selectPlan(2)">【竹】3,980円</button>
-      <button class="plan-btn" id="btn-plan-3" onclick="selectPlan(3)">【松】5,980円</button>
-    </div>
-    <button class="btn-card" onclick="drawAllCards()">✨ カードを引いて自動セット</button>
-    <div style="font-size:11px; color:#666; margin-top:5px; text-align:center;">※引いたカード結果は裏側でAIに渡され、画像は4P目に自動配置されます！</div>
-    <textarea id="ai-cards" style="display:none;"></textarea>
-    <!-- Card Preview controls -->
-    <div class="img-controls" style="justify-content:center; margin-top:10px;">
-      <span style="font-weight:bold;">4P目カード画像の微調整:</span>
-      <button onclick="adjImg('cards','w',10)">＋</button><button onclick="adjImg('cards','w',-10)">ー</button>
-      <button onclick="adjImg('cards','t',-10)">上</button><button onclick="adjImg('cards','t',10)">下</button>
-      <button onclick="adjImg('cards','l',-10)">左</button><button onclick="adjImg('cards','l',10)">右</button>
-    </div>
-  </div>
 
-  <div class="section-title">② 🌟 星とお客様情報の準備</div>
-  <div class="form-group">
-    <label>🌟 2P目用：ホロスコープ画像（PDF表示用）</label>
-    <input type="file" accept="image/*" onchange="previewImage(event, 'img-horoscope')">
-    <div class="img-controls">
-      <span>サイズ:</span><button onclick="adjImg('horoscope','w',10)">＋</button><button onclick="adjImg('horoscope','w',-10)">ー</button>
-      <span>上下:</span><button onclick="adjImg('horoscope','t',-10)">上</button><button onclick="adjImg('horoscope','t',10)">下</button>
-      <span>左右:</span><button onclick="adjImg('horoscope','l',-10)">左</button><button onclick="adjImg('horoscope','l',10)">右</button>
-    </div>
-  </div>
-
-  <div class="form-group" style="background:#f0f8ff; padding:10px; border-radius:8px; border:1px solid #b0c4de;">
-    <label>🤖 AI読み取り用：ホロスコープのスクショ（複数可）</label>
+  <!-- AI API and Global Setup -->
+  <div class="section-title">事前準備（お客様情報とAI設定）</div>
+  <div class="form-group" style="background:#f0f8ff; padding:10px; border-radius:8px;">
+    <label>👤 お客様情報（LINEコピペ）</label>
+    <textarea id="ai-userinfo" placeholder="お名前：なな様&#10;相談内容：最近旦那が…"></textarea>
+    <label style="margin-top:10px;">🤖 ホロスコープのスクショ（AI読込用）</label>
     <input type="file" id="ai-horoscope-images" accept="image/*" multiple>
-    
-    <label style="margin-top:10px;">👤 お客様情報（LINEの文章をそのままドサッとコピペ！）</label>
-    <textarea id="ai-userinfo" placeholder="お名前：なな様&#10;相談内容：最近旦那が…&#10;（※LINEのメッセージをそのまま貼るだけでAIが空気を読んで解読します！）" style="height:80px;"></textarea>
-    
     <details style="margin-top:10px; font-size:12px;">
-      <summary style="cursor:pointer; color:#7b2ff7; font-weight:bold;">🔑 Gemini APIキー設定（初回のみ）</summary>
-      <div style="margin-top:5px;">
-        <input type="password" id="api-key" placeholder="AIの鍵を入力..." onchange="saveApiKey()">
-      </div>
+      <summary style="cursor:pointer; color:#7b2ff7; font-weight:bold;">🔑 Gemini APIキー設定</summary>
+      <input type="password" id="api-key" placeholder="AIの鍵を入力..." onchange="saveApiKey()" style="margin-top:5px;">
     </details>
   </div>
 
-  <div class="section-title">③ 🪄 魔法の全自動入力</div>
-  <button class="btn-magic" onclick="generateWithAI()">✨ AIに占わせてPDFを全自動入力する！</button>
-  <div id="ai-loading" style="display:none; text-align:center; color:#0072ff; font-weight:bold; font-size:13px; margin-bottom:10px;">AIが魂を込めて鑑定中...（約30秒〜1分かかります）</div>
+  <div class="section-title">🔮 鑑定の実行</div>
+  <div class="form-group" style="background:#fff0f5; padding:10px; border-radius:8px;">
+    <div class="plan-select">
+      <button class="plan-btn active" id="btn-plan-1" onclick="selectPlan(1)">【梅】</button>
+      <button class="plan-btn" id="btn-plan-2" onclick="selectPlan(2)">【竹】</button>
+      <button class="plan-btn" id="btn-plan-3" onclick="selectPlan(3)">【松】</button>
+    </div>
+    <button class="btn-card" onclick="drawAllCards()">1. カードを引いてセット</button>
+    <textarea id="ai-cards" style="display:none;"></textarea>
+    <button class="btn-magic" onclick="generateWithAI()" style="margin-top:10px;">2. ✨ AI鑑定を全自動入力！</button>
+    <div id="ai-loading" style="display:none; text-align:center; color:#0072ff; font-weight:bold; font-size:13px;">AIが魂を込めて鑑定中...</div>
+  </div>
 
-  <div class="section-title">📝 ④テキスト微調整</div>
-  <!-- Text Inputs Loop -->
-  <script>
-    ['p2','p3','p4','p5','p6','p7'].forEach(id => {
-      let label = "";
-      if(id==='p2') label="2P目：ご挨拶と本質（前編）";
-      if(id==='p3') label="3P目：本質（後編）と才能";
-      if(id==='p4') label="4P目：現在の状況";
-      if(id==='p5') label="5P目：障害とアドバイス";
-      if(id==='p6') label="6P目：未来への希望";
-      if(id==='p7') label="7P目：結城あやからのメッセージ";
-      document.write(`
-        <div class="form-group">
-          <label>${label}</label>
-          <textarea id="input-${id}" oninput="updateText('${id}')"></textarea>
-          <div class="controls">
-            <span>サイズ:</span><button onclick="adjust('${id}','fs',1)">＋</button><button onclick="adjust('${id}','fs',-1)">ー</button>
-            <span>行間:</span><button onclick="adjust('${id}','lh',0.1)">＋</button><button onclick="adjust('${id}','lh',-0.1)">ー</button>
-            <span>左右余白:</span><button onclick="adjust('${id}','pad',10)">広</button><button onclick="adjust('${id}','pad',-10)">狭</button>
-            <span>上下位置:</span><button onclick="adjust('${id}','top',10)">下</button><button onclick="adjust('${id}','top',-10)">上</button>
-          </div>
-        </div>
-      `);
-    });
-  </script>
+  <div class="section-title">📝 ページごとの微調整</div>
+  <div style="font-size:11px; color:#e0245e; margin-bottom:10px; font-weight:bold;">※すべての画像・文章は【完全中央揃え】に固定されています！</div>
 
-  <button class="btn-main" onclick="generatePDF()">📥 完成したPDFをダウンロードする</button>
+  <!-- Page 1 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【1P目：表紙】</label>
+    <input type="text" id="input-p1-name" placeholder="例：なな 様" oninput="updateText('p1-name')">
+    <div class="controls">
+      <span>名前位置:</span><button onclick="adjust('p1-name','top',10)">下</button><button onclick="adjust('p1-name','top',-10)">上</button>
+      <span>日付:</span><input type="text" id="input-p1-date" style="width:130px; display:inline;" oninput="updateText('p1-date')">
+    </div>
+  </div>
+
+  <!-- Page 2 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【2P目：ご挨拶と本質（前編）】</label>
+    <div style="margin-bottom:5px;">
+      <span style="font-size:11px;">🌟ホロスコープ画像:</span>
+      <input type="file" accept="image/*" onchange="previewImage(event, 'img-horoscope')" style="width:160px;">
+      <button onclick="adjImg('horoscope','w',10)">大</button><button onclick="adjImg('horoscope','w',-10)">小</button>
+      <button onclick="adjImg('horoscope','t',-10)">上</button><button onclick="adjImg('horoscope','t',10)">下</button>
+    </div>
+    <textarea id="input-p2" oninput="updateText('p2')"></textarea>
+    <div class="controls">
+      <span>文字サイズ:</span><button onclick="adjust('p2','fs',1)">＋</button><button onclick="adjust('p2','fs',-1)">ー</button>
+      <span>文字位置:</span><button onclick="adjust('p2','top',10)">下</button><button onclick="adjust('p2','top',-10)">上</button>
+    </div>
+  </div>
+
+  <!-- Page 3 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【3P目：本質（後編）と才能】</label>
+    <textarea id="input-p3" oninput="updateText('p3')"></textarea>
+    <div class="controls">
+      <span>文字サイズ:</span><button onclick="adjust('p3','fs',1)">＋</button><button onclick="adjust('p3','fs',-1)">ー</button>
+      <span>文字位置:</span><button onclick="adjust('p3','top',10)">下</button><button onclick="adjust('p3','top',-10)">上</button>
+    </div>
+  </div>
+
+  <!-- Page 4 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【4P目：現在の状況（カード）】</label>
+    <div style="margin-bottom:5px;">
+      <span style="font-size:11px;">🔮カード画像:</span>
+      <button onclick="adjImg('cards','w',10)">大</button><button onclick="adjImg('cards','w',-10)">小</button>
+      <button onclick="adjImg('cards','t',-10)">上</button><button onclick="adjImg('cards','t',10)">下</button>
+    </div>
+    <textarea id="input-p4" oninput="updateText('p4')"></textarea>
+    <div class="controls">
+      <span>文字サイズ:</span><button onclick="adjust('p4','fs',1)">＋</button><button onclick="adjust('p4','fs',-1)">ー</button>
+      <span>文字位置:</span><button onclick="adjust('p4','top',10)">下</button><button onclick="adjust('p4','top',-10)">上</button>
+    </div>
+  </div>
+
+  <!-- Page 5 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【5P目：障害とアドバイス】</label>
+    <textarea id="input-p5" oninput="updateText('p5')"></textarea>
+    <div class="controls">
+      <span>文字サイズ:</span><button onclick="adjust('p5','fs',1)">＋</button><button onclick="adjust('p5','fs',-1)">ー</button>
+      <span>文字位置:</span><button onclick="adjust('p5','top',10)">下</button><button onclick="adjust('p5','top',-10)">上</button>
+    </div>
+  </div>
+
+  <!-- Page 6 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【6P目：未来への希望】</label>
+    <textarea id="input-p6" oninput="updateText('p6')"></textarea>
+    <div class="controls">
+      <span>文字サイズ:</span><button onclick="adjust('p6','fs',1)">＋</button><button onclick="adjust('p6','fs',-1)">ー</button>
+      <span>文字位置:</span><button onclick="adjust('p6','top',10)">下</button><button onclick="adjust('p6','top',-10)">上</button>
+    </div>
+  </div>
+
+  <!-- Page 7 -->
+  <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
+    <label>【7P目：メッセージ】</label>
+    <div style="margin-bottom:5px;">
+      <span style="font-size:11px;">🌸あや先生画像:</span>
+      <input type="file" accept="image/*" onchange="previewImage(event, 'img-profile'); previewImage(event, 'img-profile8-1'); previewImage(event, 'img-profile8-2');" style="width:160px;">
+      <button onclick="adjImg('profile','w',10)">大</button><button onclick="adjImg('profile','w',-10)">小</button>
+      <button onclick="adjImg('profile','t',-10)">上</button><button onclick="adjImg('profile','t',10)">下</button>
+    </div>
+    <textarea id="input-p7" oninput="updateText('p7')"></textarea>
+    <div class="controls">
+      <span>文字サイズ:</span><button onclick="adjust('p7','fs',1)">＋</button><button onclick="adjust('p7','fs',-1)">ー</button>
+      <span>文字位置:</span><button onclick="adjust('p7','top',10)">下</button><button onclick="adjust('p7','top',-10)">上</button>
+    </div>
+  </div>
+
+  <button class="btn-main" onclick="generatePDF()">📥 完成したPDFをダウンロード</button>
   <div id="loading" style="display:none; text-align:center; margin-top:10px; color:#f72f7b; font-weight:bold;">高画質PDFを生成中...</div>
 </div>
 
 <div class="preview-container">
   <div id="pdf-content">
-    <div class="page" id="page1" style="background-image: url('images/bg_1.png');"></div>
+    <div class="page" id="page1" style="background-image: url('images/bg_1.png');">
+      <div id="text-p1-name" class="p1-name">〇〇 〇〇 様</div>
+      <div id="text-p1-title" class="p1-title">星読み×タロット<br>鑑定書</div>
+      <div id="text-p1-date" class="p1-date">鑑定日：〇〇〇〇年〇〇月〇〇日</div>
+    </div>
     <div class="page" id="page2" style="background-image: url('images/bg_2.png');">
       <img id="img-horoscope" class="pdf-image" style="display:none;">
       <div id="text-p2" class="pdf-text"></div>
@@ -147,9 +209,32 @@
       <div id="text-p6" class="pdf-text"></div>
     </div>
     <div class="page" id="page7" style="background-image: url('images/bg_7.png');">
+      <img id="img-profile" class="pdf-image" src="images/profile.png" onerror="this.style.display='none';">
       <div id="text-p7" class="pdf-text"></div>
     </div>
-    <div class="page" id="page8" style="background-image: url('images/bg_8.png');"></div>
+    <div class="page" id="page8" style="background-image: url('images/bg_8.png');">
+      <div class="p8-container">
+        <img src="images/profile.png" id="img-profile8-1" class="p8-logo" onerror="this.style.display='none';">
+        
+        <div class="p8-link-title">サイトURL</div>
+        <a href="https://aya-galmiko.stores.jp/" class="p8-link-url" target="_blank">https://aya-galmiko.stores.jp/</a>
+        
+        <div class="p8-divider"></div>
+        
+        <div class="p8-link-title">公式LINE</div>
+        <a href="https://lin.ee/yDhtiAO" class="p8-link-url" target="_blank">https://lin.ee/yDhtiAO</a>
+        
+        <div class="p8-divider"></div>
+        
+        <div style="display:flex; justify-content:center; align-items:center; text-align:left; gap:20px;">
+           <img src="images/profile.png" id="img-profile8-2" class="p8-icon" onerror="this.style.display='none';">
+           <div>
+             <div class="p8-link-title" style="margin:0; letter-spacing: 0;">Threads</div>
+             <a href="https://www.threads.net/@aya_galmiko" class="p8-link-url" target="_blank">https://www.threads.net/@aya_galmiko</a>
+           </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -245,7 +330,6 @@ async function drawAllCards() {
   
   document.getElementById('ai-cards').value = result;
   
-  // Render Canvas
   const canvas = document.getElementById('renderCanvas');
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -285,7 +369,6 @@ async function drawAllCards() {
     if(oImg) drawImgRotated(ctx, oImg, (canvas.width - ow)/2, 750, ow, oh, false);
   }
   
-  // Set image to preview
   const dataUrl = canvas.toDataURL('image/png');
   const previewImg = document.getElementById('img-cards');
   previewImg.src = dataUrl;
@@ -294,24 +377,34 @@ async function drawAllCards() {
   alert("カードを引きました！結果は自動で裏側に保存され、画像は4P目にセットされました！✨");
 }
 
-
-// --- PDF Maker Logic ---
+// --- Layout Logic ---
 const styles = {};
 ['p2','p3','p4','p5','p6','p7'].forEach(id => {
-  styles[id] = { fs: 16, lh: 1.6, pad: 100, top: (id==='p2'?550:(id==='p4'?600:120)) };
+  styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?550:(id==='p4'?600:(id==='p7'?650:120))) };
 });
+styles['p1-name'] = { top: 580 };
+
 const imgStyles = {
-  horoscope: { w: 594, t: 150, l: 100 },
-  cards: { w: 694, t: 150, l: 50 }
+  horoscope: { w: 594, t: 150 },
+  cards: { w: 694, t: 150 },
+  profile: { w: 450, t: 100 }
 };
 
 window.onload = () => {
   const savedKey = localStorage.getItem('geminiApiKey');
   if(savedKey) document.getElementById('api-key').value = savedKey;
+
+  const d = new Date();
+  const dateStr = `鑑定日：${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+  document.getElementById('input-p1-date').value = dateStr;
+  document.getElementById('text-p1-date').textContent = dateStr;
 };
 
 function saveApiKey() { localStorage.setItem('geminiApiKey', document.getElementById('api-key').value); }
-function updateText(id) { document.getElementById('text-' + id).textContent = document.getElementById('input-' + id).value; }
+function updateText(id) { 
+  const el = document.getElementById('text-' + id);
+  if(el) el.textContent = document.getElementById('input-' + id).value; 
+}
 
 function previewImage(event, imgId) {
   const file = event.target.files[0];
@@ -319,8 +412,10 @@ function previewImage(event, imgId) {
     const reader = new FileReader();
     reader.onload = e => {
       const img = document.getElementById(imgId);
-      img.src = e.target.result;
-      img.style.display = 'block';
+      if(img) {
+        img.src = e.target.result;
+        img.style.display = 'block';
+      }
     }
     reader.readAsDataURL(file);
   }
@@ -331,7 +426,6 @@ function adjust(id, prop, amount) {
   const el = document.getElementById('text-' + id);
   if(prop === 'fs') el.style.fontSize = styles[id].fs + 'px';
   else if(prop === 'lh') el.style.lineHeight = styles[id].lh;
-  else if(prop === 'pad') { el.style.left = styles[id].pad + 'px'; el.style.right = styles[id].pad + 'px'; }
   else if(prop === 'top') el.style.top = styles[id].top + 'px';
 }
 
@@ -340,7 +434,6 @@ function adjImg(id, prop, amount) {
   const el = document.getElementById('img-' + id);
   if(prop === 'w') el.style.width = imgStyles[id].w + 'px';
   else if(prop === 't') el.style.top = imgStyles[id].t + 'px';
-  else if(prop === 'l') el.style.left = imgStyles[id].l + 'px';
 }
 
 // AI Generation (Gemini)
@@ -386,6 +479,7 @@ ${cards}
 
 【出力JSONフォーマット】
 {
+  "p1_name": "〇〇 様",
   "p2": "○○というお気持ち、受け取りました...（から始まる、ホロスコープからの本質前編。約300文字）",
   "p3": "あなたは実はこういう方です...（などを用いた、本質後編・才能・使命。なぜ今うまくいかないかの核心。約700文字）",
   "p4": "（タロット1枚目の正逆位置を明記し、現在の状況と共感ワード。約300文字）",
@@ -399,10 +493,7 @@ ${cards}
     const modelData = await modelRes.json();
     if(modelData.error) throw new Error("モデル一覧の取得に失敗しました: " + modelData.error.message);
     
-    // Get ALL available models that support generation
     let validModels = modelData.models.filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes("generateContent")).map(m => m.name);
-    
-    // Sort them so that 'flash' models (usually faster/free) are tried first
     validModels.sort((a, b) => {
        if(a.includes('flash') && !b.includes('flash')) return -1;
        if(!a.includes('flash') && b.includes('flash')) return 1;
@@ -430,25 +521,27 @@ ${cards}
       if(data.error) {
         lastError = data.error.message;
         console.log(`[総当たりテスト] ${model} は使えませんでした: ${lastError}`);
-        // Wait 1 sec to avoid spamming the API
         await new Promise(r => setTimeout(r, 1000));
-        continue; // Try the NEXT model regardless of the error type!
+        continue;
       } else {
-        break; // Success! We found a working model!
+        break; 
       }
     }
 
     if(data && data.error) {
        throw new Error(`Googleが提供しているすべてのAIを試しましたが、すべて制限（0回制限など）で弾かれました😭 あかりさんのアカウントではGoogle Cloudでクレジットカードを登録して「従量課金」にしないとAPIが使えない状態になっています💦\n（最後のエラー: ${lastError}）`);
     }
-
-    if(data && data.error) throw new Error("現在GoogleのAIが世界的に大混雑しているようです💦 少し待ってからもう一度お試しください！詳細: " + lastError);
-
     
     let aiText = data.candidates[0].content.parts[0].text;
     aiText = aiText.replace(/```json/g, "").replace(/```/g, "").trim();
     const result = JSON.parse(aiText);
     
+    // Auto fill name
+    if(result['p1_name']) {
+       document.getElementById('input-p1-name').value = result['p1_name'];
+       updateText('p1-name');
+    }
+
     ['p2','p3','p4','p5','p6','p7'].forEach(id => {
       if(result[id]) {
         document.getElementById('input-' + id).value = result[id];
@@ -456,7 +549,7 @@ ${cards}
       }
     });
     
-    alert("✨ AI鑑定が完了し、2〜7P目に自動入力されました！");
+    alert("✨ AI鑑定が完了し、1P〜7P目に自動入力されました！");
   } catch (err) {
     alert("エラーが発生しました: " + err.message);
   } finally {
