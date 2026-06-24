@@ -60,8 +60,8 @@
 
     /* Theme Overrides (Pink) */
     .theme-pink .p1-title { display: none; }
-    .theme-pink .p1-name { color: #8c5e42; top: 760px; font-size: 22px; font-weight: bold; letter-spacing: 4px; }
-    .theme-pink .p1-date { color: #8c5e42; top: 880px; font-size: 16px; font-weight: bold; letter-spacing: 2px; opacity: 1; }
+    .theme-pink .p1-name { color: #8c5e42; top: 870px; font-size: 22px; font-weight: bold; letter-spacing: 4px; }
+    .theme-pink .p1-date { color: #8c5e42; top: 980px; font-size: 16px; font-weight: bold; letter-spacing: 2px; opacity: 1; }
     .p8-link-pink { position: absolute; left: 330px; font-family: 'Noto Serif JP', serif; font-size: 16px; color: #8c5e42; text-decoration: none; letter-spacing: 1px; }
   </style>
 </head>
@@ -110,9 +110,12 @@
   <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
     <label>【1P目：表紙】</label>
     <input type="text" id="input-p1-name" placeholder="例：なな" oninput="updateText('p1-name')">
-    <div class="controls">
+    <div class="controls" style="margin-bottom:8px;">
       <span>名前位置:</span><button onclick="adjust('p1-name','top',10)">下</button><button onclick="adjust('p1-name','top',-10)">上</button>
-      <span>日付:</span><input type="text" id="input-p1-date" style="width:180px; display:inline;" oninput="updateText('p1-date')">
+    </div>
+    <input type="text" id="input-p1-date" style="width:100%; display:inline;" oninput="updateText('p1-date')">
+    <div class="controls">
+      <span>日付位置:</span><button onclick="adjust('p1-date','top',10)">下</button><button onclick="adjust('p1-date','top',-10)">上</button>
     </div>
   </div>
 
@@ -196,12 +199,24 @@
   <!-- Page 8 -->
   <div class="form-group" style="border-left: 4px solid #7b2ff7; padding-left: 10px;">
     <label>【8P目：裏表紙リンク設定】</label>
-    <div style="font-size:11px; margin-bottom:5px;">サイトURL:</div>
-    <input type="text" id="input-url-1" value="https://yuki-aya.stores.jp/" oninput="updateUrls()" style="margin-bottom:5px;">
-    <div style="font-size:11px; margin-bottom:5px;">公式LINE URL:</div>
-    <input type="text" id="input-url-2" value="https://lin.ee/xxxxx" oninput="updateUrls()" style="margin-bottom:5px;">
-    <div style="font-size:11px; margin-bottom:5px;">SNS (Threads) URL:</div>
+    
+    <div style="font-size:11px; margin-bottom:2px;">サイトURL:</div>
+    <input type="text" id="input-url-1" value="https://yuki-aya.stores.jp/" oninput="updateUrls()">
+    <div class="controls" style="margin-bottom:5px;">
+      <span>サイト位置:</span><button onclick="adjust('p8-url-1','top',10)">下</button><button onclick="adjust('p8-url-1','top',-10)">上</button>
+    </div>
+    
+    <div style="font-size:11px; margin-bottom:2px;">公式LINE URL:</div>
+    <input type="text" id="input-url-2" value="https://lin.ee/xxxxx" oninput="updateUrls()">
+    <div class="controls" style="margin-bottom:5px;">
+      <span>LINE位置:</span><button onclick="adjust('p8-url-2','top',10)">下</button><button onclick="adjust('p8-url-2','top',-10)">上</button>
+    </div>
+    
+    <div style="font-size:11px; margin-bottom:2px;">SNS URL:</div>
     <input type="text" id="input-url-3" value="https://www.threads.net/@yuki_aya" oninput="updateUrls()">
+    <div class="controls" style="margin-bottom:5px;">
+      <span>SNS位置:</span><button onclick="adjust('p8-url-3','top',10)">下</button><button onclick="adjust('p8-url-3','top',-10)">上</button>
+    </div>
   </div>
 
   <button class="btn-main" onclick="generatePDF()">📥 完成したPDFをダウンロード</button>
@@ -259,9 +274,9 @@
         </div>
       </div>
       <div id="p8-pink" style="display:none; position:absolute; width:100%; height:100%;">
-        <a href="https://yuki-aya.stores.jp/" target="_blank" id="p8-pink-url-1" class="p8-link-pink" style="top: 735px;">https://yuki-aya.stores.jp/</a>
-        <a href="https://lin.ee/xxxxx" target="_blank" id="p8-pink-url-2" class="p8-link-pink" style="top: 835px;">https://lin.ee/xxxxx</a>
-        <a href="https://www.threads.net/@yuki_aya" target="_blank" id="p8-pink-url-3" class="p8-link-pink" style="top: 935px;">https://www.threads.net/@yuki_aya</a>
+        <a href="https://yuki-aya.stores.jp/" target="_blank" id="text-p8-url-1" class="p8-link-pink" style="top: 770px;">https://yuki-aya.stores.jp/</a>
+        <a href="https://lin.ee/xxxxx" target="_blank" id="text-p8-url-2" class="p8-link-pink" style="top: 885px;">https://lin.ee/xxxxx</a>
+        <a href="https://www.threads.net/@yuki_aya" target="_blank" id="text-p8-url-3" class="p8-link-pink" style="top: 1000px;">https://www.threads.net/@yuki_aya</a>
       </div>
     </div>
   </div>
@@ -327,8 +342,10 @@ function switchTheme(theme) {
   document.getElementById('p8-blue').style.display = theme === 'blue' ? 'block' : 'none';
   document.getElementById('p8-pink').style.display = theme === 'pink' ? 'block' : 'none';
   
-  styles['p1-name'].top = theme === 'pink' ? 620 : 580;
+  styles['p1-name'].top = theme === 'pink' ? 870 : 580;
+  styles['p1-date'].top = theme === 'pink' ? 980 : 960;
   document.getElementById('text-p1-name').style.top = ''; 
+  document.getElementById('text-p1-date').style.top = ''; 
 }
 
 function selectPlan(n) {
@@ -429,7 +446,11 @@ const styles = {};
 ['p2','p3','p4','p5','p6','p7'].forEach(id => {
   styles[id] = { fs: 20, lh: 1.6, top: (id==='p2'?580:(id==='p4'?620:(id==='p7'?560:120))) };
 });
-styles['p1-name'] = { top: 580 };
+styles['p1-name'] = { top: 870 };
+styles['p1-date'] = { top: 980 };
+styles['p8-url-1'] = { top: 770 };
+styles['p8-url-2'] = { top: 885 };
+styles['p8-url-3'] = { top: 1000 };
 
 const imgStyles = {
   horoscope: { w: 500, t: 80 },
@@ -457,9 +478,9 @@ function updateUrls() {
   const u3 = document.getElementById('input-url-3').value;
   
   // Pink
-  document.getElementById('p8-pink-url-1').href = u1; document.getElementById('p8-pink-url-1').textContent = u1;
-  document.getElementById('p8-pink-url-2').href = u2; document.getElementById('p8-pink-url-2').textContent = u2;
-  document.getElementById('p8-pink-url-3').href = u3; document.getElementById('p8-pink-url-3').textContent = u3;
+  document.getElementById('text-p8-url-1').href = u1; document.getElementById('text-p8-url-1').textContent = u1;
+  document.getElementById('text-p8-url-2').href = u2; document.getElementById('text-p8-url-2').textContent = u2;
+  document.getElementById('text-p8-url-3').href = u3; document.getElementById('text-p8-url-3').textContent = u3;
 }
 function updateText(id) { 
   const el = document.getElementById('text-' + id);
