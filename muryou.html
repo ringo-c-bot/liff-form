@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>アヤの無料星読み鑑定</title>
+  <title>結城あやの無料星読み鑑定</title>
   <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/versions/2.22.3/sdk.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -55,15 +55,15 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>🔮 アヤの無料星読み鑑定</h1>
-      <p>星を読む前に少し情報を教えてな✨<br>丁寧に読み解かせてもらうよ🌸</p>
+      <h1>🔮 結城あやの無料星読み鑑定</h1>
+      <p>星を読む前に少し情報を教えてくださいね✨<br>丁寧に読み解かせていただきます🌸</p>
     </div>
 
     <!-- 入力フォーム（最初から表示） -->
     <div id="form-area">
       <div class="form-group">
         <label>お名前<span class="required">*</span></label>
-        <input type="text" id="userName" placeholder="ニックネームでもOKやよ">
+        <input type="text" id="userName" placeholder="ニックネームでもOKです">
       </div>
 
       <div class="form-group">
@@ -73,16 +73,16 @@
 
       <div class="form-group">
         <label>相談内容<span class="required">*</span></label>
-        <textarea id="soudan" placeholder="書ける範囲で自由に書いてな。詳しく書いてもらえるほど深い鑑定ができるよ🔮"></textarea>
-        <p class="note">※相談内容は1つに絞ってな🌸<br>複数ある場合は一番気になることを書いてな✨</p>
+        <textarea id="soudan" placeholder="書ける範囲で自由に書いてくださいね。詳しく書いてもらえるほど深い鑑定ができます🔮"></textarea>
+        <p class="note">※相談内容は1つに絞ってくださいね🌸<br>複数ある場合は一番気になることを書いてください✨</p>
       </div>
 
       <div class="warning">
-        ※人の生死や病気の診断、犯罪や法律に関わる内容など、人生に重要な影響を及ぼすものについては対応が難しいんよ。ごめんな🙏
+        ※人の生死や病気の診断、犯罪や法律に関わる内容など、人生に重要な影響を及ぼすものについては対応が難しい場合があります。ごめんなさい🙏
       </div>
 
       <p id="error-msg" style="display:none; color:#ff6b9d; font-size:13px; margin-bottom:12px;">
-        全部の項目を入力してな🌸
+        全部の項目を入力してください🌸
       </p>
       <button class="btn" id="submitBtn" onclick="submitForm()">
         🌟 鑑定をお願いする
@@ -91,17 +91,17 @@
 
     <!-- 送信完了画面 -->
     <div class="success" id="success-area">
-      <h2>✨ 受け取ったよ！</h2>
-      <p>アヤが今星を読んでるから<br>少し待っててな🔮<br><br>LINEに鑑定結果をお届けするから<br>楽しみに待っててな🌸</p>
+      <h2>✨ 受け取りました！</h2>
+      <p>私がいま星を読んでいます。<br>少し待っていてくださいね🔮<br><br>LINEに鑑定結果をお届けしますので<br>楽しみに待っていてください🌸</p>
     </div>
 
     <!-- 鑑定済み画面 -->
     <div id="kantei-zumi-area" style="display:none; text-align:center; padding:40px 20px;">
       <h2 style="color:#FFD700; font-size:20px; margin-bottom:12px;">✨ ご確認</h2>
       <p style="color:#c8a8ff; font-size:14px; line-height:1.8;">
-        すでに無料鑑定を受けてくれてるんよ🌸<br><br>
+        すでに無料鑑定を受けていただいています🌸<br><br>
         もっと深く視たい時は<br>
-        本鑑定で待ってるな✨
+        本鑑定でお待ちしていますね✨
       </p>
     </div>
 
@@ -179,7 +179,7 @@
         });
 
       } catch(e) {
-        document.getElementById('error-msg').textContent = '送信エラーが発生したんよ😔もう一度試してな';
+        document.getElementById('error-msg').textContent = '送信エラーが発生しました😔もう一度試してください';
         document.getElementById('error-msg').style.display = 'block';
         btn.disabled = false;
         btn.textContent = '🌟 鑑定をお願いする';
