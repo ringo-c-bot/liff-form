@@ -58,62 +58,50 @@
       <h1>⭐️ 結城あやの星読み本鑑定 ⭐</h1>
       <p>ご購入ありがとうございます🌸<br>以下の情報を入力してくださいね✨</p>
     </div>
-
     <div id="form-area">
       <div class="form-group">
         <label>注文番号<span class="required">*</span></label>
         <input type="text" id="orderNum" placeholder="STORESの注文番号を入力してください">
       </div>
-
       <div class="form-group">
         <label>お名前<span class="required">*</span></label>
         <input type="text" id="userName" placeholder="ニックネームでもOKです">
       </div>
-
       <div class="form-group">
         <label>生年月日<span class="required">*</span></label>
         <input type="date" id="birthday">
       </div>
-
       <div class="form-group">
         <label>出生時刻<span class="required">*</span></label>
         <input type="time" id="birthTime">
         <p class="note">わからない場合は12:00と入力してくださいね🌸</p>
       </div>
-
       <div class="form-group">
         <label>出生地<span class="required">*</span></label>
         <input type="text" id="birthPlace" placeholder="例）京都府京都市">
         <p class="note">都道府県と市区町村まで教えていただけると嬉しいです🌿</p>
       </div>
-
       <div class="form-group">
         <label>相談内容<span class="required">*</span></label>
         <textarea id="soudan" placeholder="書ける範囲で自由に書いてくださいね🔮"></textarea>
       </div>
-
       <div class="warning">
         ※人の生死や病気の診断、犯罪や法律に関わる内容など、人生に重要な影響を及ぼすものについては対応が難しい場合があります。ごめんなさい🙏
       </div>
-
       <p id="error-msg" style="display:none; color:#ff6b9d; font-size:13px; margin-bottom:12px;">
         全部の項目を入力してください🌸
       </p>
-
       <button class="btn" id="submitBtn" onclick="submitForm()">
         🔮 鑑定をお願いする
       </button>
     </div>
-
     <div class="success" id="success-area">
       <h2>✨ 受け取りました！</h2>
       <p>心を込めて<br>鑑定を始めますね✨<br><br>1〜3日以内に鑑定書を<br>LINEにお届けします🔮🌸</p>
     </div>
   </div>
-
   <script>
     let liffUserId = '';
-
     async function initLiff() {
       try {
         await liff.init({ liffId: '2009475505-inzLXZGk' });
@@ -127,7 +115,6 @@
         console.error('LIFF初期化エラー：', e);
       }
     }
-
     async function submitForm() {
       const orderNum   = document.getElementById('orderNum').value.trim();
       const userName   = document.getElementById('userName').value.trim();
@@ -135,24 +122,19 @@
       const birthTime  = document.getElementById('birthTime').value;
       const birthPlace = document.getElementById('birthPlace').value.trim();
       const soudan     = document.getElementById('soudan').value.trim();
-
       if (!orderNum || !userName || !birthday || !birthTime || !birthPlace || !soudan) {
         document.getElementById('error-msg').style.display = 'block';
         return;
       }
-
       document.getElementById('error-msg').style.display = 'none';
-
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
       btn.textContent = '送信中...';
-
-      // 即座に「受け取ったよ！」画面に切り替え
       document.getElementById('form-area').style.display = 'none';
       document.getElementById('success-area').style.display = 'block';
-
-      // バックグラウンドで送信（待たない）
-      const GAS_URL = 'https://script.google.com/macros/s/AKfycbx18KZpgmWybpZjhnSGfb_ZdOxDzh5zl4gr1Ji00PzJ_ids-RDg4R6kKS_Jy_PzxnUO/exec';
+      // 🛑 新しいVercelの脳みそURL！
+      const GAS_URL = 'https://yuki-aya-bot.vercel.app/api/liff';
+      
       fetch(GAS_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -164,14 +146,12 @@
         })
       });
     }
-
     const today = new Date().toISOString().split('T')[0];
     const birthdayInput = document.getElementById('birthday');
     birthdayInput.max = today;
     birthdayInput.addEventListener('focus', function() {
       if (!this.value) this.value = '2000-01-01';
     });
-
     initLiff();
   </script>
 </body>
